@@ -16,6 +16,7 @@ public class GUI implements ActionListener {
 	private JFrame frame = new JFrame();
 	private JButton btnNewStudyTask, btnNewHomeTask;
 	private JPanel menu, taskList;
+	private JScrollPane scrollPane;
 	private Dimension menuBar = new Dimension(50, 50);
 	private Dimension window = new Dimension(400, 500);
 	
@@ -42,8 +43,11 @@ public class GUI implements ActionListener {
 		btnNewHomeTask.addActionListener(this);
 		menu.add(btnNewHomeTask);
 		
+		scrollPane = new JScrollPane();
+		scrollPane.getViewport().add(taskList);
+		
 		frame.add(menu, BorderLayout.NORTH);
-		frame.add(taskList);
+		frame.add(scrollPane);
 	}
 	
 	/*
