@@ -1,18 +1,12 @@
 package assignment2;
 
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
+import se.his.it401g.todo.HomeTask;
+import se.his.it401g.todo.StudyTask;
+import se.his.it401g.todo.Task;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Hej Världen!");
-		
-		JFrame frame = new JFrame();
-		frame.setSize(400, 200);
-		frame.add(new JCheckBox());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		GUI gui = new GUI();
 	}
-
 }
