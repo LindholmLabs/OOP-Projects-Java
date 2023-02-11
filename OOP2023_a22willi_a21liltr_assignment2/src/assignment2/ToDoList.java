@@ -17,6 +17,10 @@ public class ToDoList {
 		todoList.add(task);
 	}
 	
+	public boolean removeTask(Task task) {
+		return todoList.remove(task);
+	}
+	
 	/* 
 	 * @return returns all tasks as an ArrayList. 
 	 */

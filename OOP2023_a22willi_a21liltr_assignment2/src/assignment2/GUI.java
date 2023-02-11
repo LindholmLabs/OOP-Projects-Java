@@ -1,7 +1,6 @@
 package assignment2;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.*;
 
@@ -14,11 +13,11 @@ import se.his.it401g.todo.Task;
 public class GUI implements ActionListener {
 	//create new instance of JFrame
 	private JFrame frame = new JFrame();
-	private JButton btnNewStudyTask, btnNewHomeTask;
-	private JPanel menu, taskList;
-	private JScrollPane scrollPane;
+	private JButton btnNewStudyTask, btnNewHomeTask, btnSort;
+	private JPanel menu;
 	private Dimension menuBar = new Dimension(50, 50);
-	private Dimension window = new Dimension(400, 500);
+	private Dimension window = new Dimension(450, 500);
+	private TaskHandler taskHandler;
 	
 	/*
 	 * Initialize the gui using Swing
@@ -32,8 +31,6 @@ public class GUI implements ActionListener {
 		//add buttons for creating new tasks (inside panel)
 		menu = new JPanel();
 		menu.setSize(menuBar);
-		taskList = new JPanel();
-		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
 		
 		btnNewStudyTask = new JButton("Add StudyTask");
 		btnNewStudyTask.addActionListener(this);
@@ -43,37 +40,31 @@ public class GUI implements ActionListener {
 		btnNewHomeTask.addActionListener(this);
 		menu.add(btnNewHomeTask);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.getViewport().add(taskList);
-		
 		frame.add(menu, BorderLayout.NORTH);
-		frame.add(scrollPane);
-	}
-	
-	/*
-	 * Adds a component to the frame.
-	 * 
-	 * @param component	The component to add.
-	 */
-	private void addTask(Task task) {
-		taskList.add(task.getGuiComponent());
 		
-		//update the frame to show currently visible tasks.
-		SwingUtilities.updateComponentTreeUI(taskList);
-	}
-	
-	public void removeTask() {
-		
-	}
+		taskHandler = new TaskHandler();
+		frame.add(taskHandler.GetScrollPane());
+		frame.add(taskHandler.GetTaskProgress(), BorderLayout.SOUTH);
+	}	
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		if (e.getSource() == btnNewHomeTask) {
-			addTask(new HomeTask());
-		} 
-		else if (e.getSource() == btnNewStudyTask) {
-			addTask(new StudyTask());
+	public void actionPerformed(ActionEvent e) {		
+		if (e.getSource() == btnSort){
+			
 		}
+		else {
+			Task t;	
+			if (e.getSource() == btnNewHomeTask) {
+				t = new HomeTask();		
+			} 
+			else if (e.getSource() == btnNewStudyTask) {
+				t = new StudyTask();
+			}
+			else {
+				t = new WorkTask();
+			}
+			
+			taskHandler.taskCreated(t);	
+		}	
 	}
 }

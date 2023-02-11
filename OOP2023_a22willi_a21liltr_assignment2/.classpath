@@ -6,7 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="src/ToDo.jar">
+	<classpathentry kind="lib" path="src/ToDo.jar" sourcepath="C:/Users/Lily/_programming/Objektorienterad-programmering-HIS/OOP2023_a22willi_a21liltr_assignment2/src/ToDo.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
