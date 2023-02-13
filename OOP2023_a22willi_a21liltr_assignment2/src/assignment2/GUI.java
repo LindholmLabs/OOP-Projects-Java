@@ -3,7 +3,6 @@ package assignment2;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,10 +34,10 @@ public class GUI implements ActionListener {
 		menu = new JPanel();
 		menu.setSize(menuBar);
 		
-		createButton("study", "New StudyTask");
-		createButton("home", "New HomeTask");
-		createButton("work", "New WorkTask");
-		createButton("sort", "Sort");
+		createMenuButton("study", "New StudyTask");
+		createMenuButton("home", "New HomeTask");
+		createMenuButton("work", "New WorkTask");
+		createMenuButton("sort", "Sort");
 		
 		frame.add(menu, BorderLayout.NORTH);
 		
@@ -55,10 +54,20 @@ public class GUI implements ActionListener {
 	 * @param key		Used for distinguishing buttons from each other, unique "name"
 	 * @param btnText	Button text
 	 */
-	private void createButton(String key, String btnText) {
+	private void createMenuButton(String key, String btnText) {
 		buttons.put(key, new JButton(btnText)); //Create new button and add to Map using key value
 		buttons.get(key).addActionListener(this); //add ActionListener to button
 		menu.add(buttons.get(key)); // add button to GUI
+	}
+	
+	private String selectSort() {
+		String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
+
+		Object selected = JOptionPane.showInputDialog(null, "Choose sorting type", "Selection", JOptionPane.DEFAULT_OPTION, null, sortingOptions, "0");
+		if ( selected != null ){//null if the user cancels. 
+		    return selected.toString();
+		}
+		return "";
 	}
 
 	@Override
@@ -69,7 +78,7 @@ public class GUI implements ActionListener {
 		}
 		
 		if (e.getSource().equals(buttons.get("sort"))) {
-			taskHandler.Sort();
+			taskHandler.Sort(selectSort());
 		}
 		else {
 			Task t;	
