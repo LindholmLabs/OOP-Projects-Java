@@ -79,10 +79,6 @@ public class GUI implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if (e.getSource() == buttons.get("work")) {
-			System.out.println("Test worked");
-		}
-		
 		if (e.getSource().equals(buttons.get("sort"))) {
 			taskHandler.Sort(selectSort());
 		}

@@ -24,6 +24,7 @@ public class TaskHandler implements TaskListener {
 		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
 		
 		scrollPane = new JScrollPane();
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		scrollPane.getViewport().add(taskList);
 		
 		completedTaskCount = 0;
@@ -40,30 +41,34 @@ public class TaskHandler implements TaskListener {
 		return taskProgress;
 	}
 	
-	public void Sort() {
+	public void Sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
 			sortedList.add((Task)taskList.getComponent(i));
 		}
 		
-		//if or switch case for sorting method.
-		
-		/*Collections.sort(sortedList, 
-		(o1, o2) -> 
-			o1.isComplete()
-				.compareTo(o2.isComplete()));
-				*/
-
-		/*Collections.sort(sortedList, 
-				(o1, o2) -> 
-					o1.getText()
-						.compareTo(o2.getText()));
-						*/
-		
-		Collections.sort(sortedList, 
-				(o1, o2) -> 
-					o1.getTaskType()
-						.compareTo(o2.getTaskType()));
+		switch (sortingOption)
+		{
+		    case "Alphabetical":
+		    	Collections.sort(sortedList, 
+						(o1, o2) -> 
+							o1.getText().toLowerCase()
+								.compareTo(o2.getText().toLowerCase()));
+		    	break;
+		    case "Type":
+		    	Collections.sort(sortedList, 
+						(o1, o2) -> 
+							o1.getTaskType()
+								.compareTo(o2.getTaskType()));
+		    	break;
+		    case "Completed":
+		    	Collections.sort(sortedList, 
+						(o1, o2) ->
+							Boolean.compare(o1.isComplete(), o2.isComplete()));
+		    	break;
+		    default:
+		    	
+		}
 		taskList.removeAll();
 		
 		for (int i = 0; i < sortedList.size(); i++) {
