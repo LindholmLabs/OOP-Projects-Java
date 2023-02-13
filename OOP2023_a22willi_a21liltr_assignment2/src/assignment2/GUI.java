@@ -50,11 +50,14 @@ public class GUI implements ActionListener {
 	}
 	
 	/*
+	 * Create button, add ActionListener to button and add button to GUI.
 	 * 
+	 * @param key		Used for distinguishing buttons from each other, unique "name"
+	 * @param btnText	Button text
 	 */
 	private void createButton(String key, String btnText) {
 		buttons.put(key, new JButton(btnText)); //Create new button and add to Map using key value
-		buttons.get(key).addActionListener(this); //add actionlistener to button
+		buttons.get(key).addActionListener(this); //add ActionListener to button
 		menu.add(buttons.get(key)); // add button to GUI
 	}
 
