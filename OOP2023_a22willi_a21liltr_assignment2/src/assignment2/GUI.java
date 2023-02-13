@@ -60,14 +60,20 @@ public class GUI implements ActionListener {
 		menu.add(buttons.get(key)); // add button to GUI
 	}
 	
+	
+	/*
+	 * Used to select correct sorting algorithm to use.
+	 * 
+	 * @return 	String value corresponing with selected sorting algorithm.
+	 */
 	private String selectSort() {
 		String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
 
 		Object selected = JOptionPane.showInputDialog(null, "Choose sorting type", "Selection", JOptionPane.DEFAULT_OPTION, null, sortingOptions, "0");
-		if ( selected != null ){//null if the user cancels. 
-		    return selected.toString();
+		if ( selected != null ) {
+		    return selected.toString(); //return selected sorting type 
 		}
-		return "";
+		return ""; //user cancelled, returning empty string, no sorting will ensue.
 	}
 
 	@Override
