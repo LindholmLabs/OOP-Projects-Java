@@ -1,10 +1,14 @@
 package assignment2;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import se.his.it401g.todo.Task;
@@ -14,20 +18,31 @@ public class TaskHandler implements TaskListener {
 	private JPanel taskList;
 	private JScrollPane scrollPane;
 	private JLabel taskProgress;
-	private int totalTaskCount;
 	private int completedTaskCount;
 	
 	public TaskHandler() {
 		taskList = new JPanel();
 		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
 		
+		/*Collections.sort(sortedList, 
+				(o1, o2) -> 
+					o1.isComplete()
+						.compareTo(o2.isComplete()));
+						*/
+		
+		/*Collections.sort(sortedList, 
+				(o1, o2) -> 
+					o1.getText()
+						.compareTo(o2.getText()));
+						*/
+		
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().add(taskList);
 		
-		totalTaskCount = 0;
 		completedTaskCount = 0;
 		taskProgress = new JLabel();
-		taskProgress.setText(completedTaskCount + "/" + taskList.getComponentCount());
+		taskProgress.setHorizontalAlignment(JLabel.CENTER);
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
 	}
 	
 	public JScrollPane GetScrollPane() {
@@ -36,6 +51,27 @@ public class TaskHandler implements TaskListener {
 	
 	public JLabel GetTaskProgress() {
 		return taskProgress;
+	}
+	
+	public void Sort() {
+		List<Task> sortedList = new ArrayList<Task>();
+		for (int i = 0; i < taskList.getComponentCount(); i++) {
+			sortedList.add((Task)taskList.getComponent(i));
+		}
+		
+		Collections.sort(sortedList, 
+				(o1, o2) -> 
+					o1.getTaskType()
+						.compareTo(o2.getTaskType()));
+		taskList.removeAll();
+		
+		for (int i = 0; i < sortedList.size(); i++) {
+			taskList.add(sortedList.get(i).getGuiComponent());
+			
+		}
+		
+		//update the frame to show currently visible tasks.
+		SwingUtilities.updateComponentTreeUI(taskList);
 	}
 
 	@Override
@@ -48,7 +84,7 @@ public class TaskHandler implements TaskListener {
 	public void taskCompleted(Task t) {
 		// TODO Auto-generated method stub
 		completedTaskCount++;
-		taskProgress.setText(completedTaskCount + "/" + taskList.getComponentCount());
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
@@ -58,7 +94,7 @@ public class TaskHandler implements TaskListener {
 	public void taskUncompleted(Task t) {
 		// TODO Auto-generated method stub
 		completedTaskCount--;
-		taskProgress.setText(completedTaskCount + "/" + taskList.getComponentCount());
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
@@ -70,8 +106,7 @@ public class TaskHandler implements TaskListener {
 		t.setTaskListener(this);
 		taskList.add(t.getGuiComponent());
 		
-		totalTaskCount++;
-		taskProgress.setText(completedTaskCount + "/" + taskList.getComponentCount());
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
@@ -85,8 +120,7 @@ public class TaskHandler implements TaskListener {
 			completedTaskCount--;
 		}
 		
-		totalTaskCount--;
-		taskProgress.setText(completedTaskCount + "/" + taskList.getComponentCount());
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);

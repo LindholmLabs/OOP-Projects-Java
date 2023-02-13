@@ -11,16 +11,17 @@ import se.his.it401g.todo.StudyTask;
 import se.his.it401g.todo.Task;
 
 public class GUI implements ActionListener {
-	//create new instance of JFrame
+	// TaskHandler creates a new scrollPane and taskList and puts the taskList on the scrollPane.
+	// TaskHandler also tracks the amount of tasks created, and the amount of tasks marked completed.
+	private TaskHandler taskHandler;
 	private JFrame frame = new JFrame();
 	private JButton btnNewStudyTask, btnNewHomeTask, btnSort;
 	private JPanel menu;
 	private Dimension menuBar = new Dimension(50, 50);
 	private Dimension window = new Dimension(450, 500);
-	private TaskHandler taskHandler;
 	
 	/*
-	 * Initialize the gui using Swing
+	 * Initialize the GUI using Swing
 	 */
 	public GUI() {		
 		//set frame variables and make frame visible
@@ -40,6 +41,10 @@ public class GUI implements ActionListener {
 		btnNewHomeTask.addActionListener(this);
 		menu.add(btnNewHomeTask);
 		
+		btnSort = new JButton("Sort");
+		btnSort.addActionListener(this);
+		menu.add(btnSort);
+		
 		frame.add(menu, BorderLayout.NORTH);
 		
 		taskHandler = new TaskHandler();
@@ -50,7 +55,7 @@ public class GUI implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == btnSort){
-			
+			taskHandler.Sort();
 		}
 		else {
 			Task t;	
