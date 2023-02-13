@@ -29,7 +29,7 @@ public class TaskHandler implements TaskListener {
 		completedTaskCount = 0;
 		taskProgress = new JLabel();
 		taskProgress.setHorizontalAlignment(JLabel.CENTER);
-		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+		updateTaskProgress();
 	}
 	
 	public JScrollPane GetScrollPane() {
@@ -85,7 +85,7 @@ public class TaskHandler implements TaskListener {
 	public void taskCompleted(Task t) {
 		// TODO Auto-generated method stub
 		completedTaskCount++;
-		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+		updateTaskProgress();
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
@@ -95,7 +95,7 @@ public class TaskHandler implements TaskListener {
 	public void taskUncompleted(Task t) {
 		// TODO Auto-generated method stub
 		completedTaskCount--;
-		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+		updateTaskProgress();
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
@@ -107,7 +107,7 @@ public class TaskHandler implements TaskListener {
 		t.setTaskListener(this);
 		taskList.add(t.getGuiComponent());
 		
-		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+		updateTaskProgress();
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
@@ -121,10 +121,18 @@ public class TaskHandler implements TaskListener {
 			completedTaskCount--;
 		}
 		
-		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+		updateTaskProgress();
 		
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
+	}
+	
+	/*
+	 * Updates the task progress to show the current amount
+	 * of tasks.
+	 */
+	private void updateTaskProgress() {
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
 	}
 
 }
