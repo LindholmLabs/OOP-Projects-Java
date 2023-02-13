@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -23,18 +22,6 @@ public class TaskHandler implements TaskListener {
 	public TaskHandler() {
 		taskList = new JPanel();
 		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
-		
-		/*Collections.sort(sortedList, 
-				(o1, o2) -> 
-					o1.isComplete()
-						.compareTo(o2.isComplete()));
-						*/
-		
-		/*Collections.sort(sortedList, 
-				(o1, o2) -> 
-					o1.getText()
-						.compareTo(o2.getText()));
-						*/
 		
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().add(taskList);
@@ -58,6 +45,20 @@ public class TaskHandler implements TaskListener {
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
 			sortedList.add((Task)taskList.getComponent(i));
 		}
+		
+		//if or switch case for sorting method.
+		
+		/*Collections.sort(sortedList, 
+		(o1, o2) -> 
+			o1.isComplete()
+				.compareTo(o2.isComplete()));
+				*/
+
+		/*Collections.sort(sortedList, 
+				(o1, o2) -> 
+					o1.getText()
+						.compareTo(o2.getText()));
+						*/
 		
 		Collections.sort(sortedList, 
 				(o1, o2) -> 
