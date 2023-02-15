@@ -19,6 +19,13 @@ public class TaskHandler implements TaskListener {
 	private JLabel taskProgress;
 	private int completedTaskCount;
 	
+	/**
+	 * Constructor for taskHandler class.
+	 * 
+	 * Creates tasks and adds them to the Scrollpane
+	 * Also handles the tasks states (completed, uncompleted)
+	 * And worktasks color.
+	 */
 	public TaskHandler() {
 		taskList = new JPanel();
 		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
@@ -33,18 +40,31 @@ public class TaskHandler implements TaskListener {
 		updateTaskProgress();
 	}
 	
+	/**
+	 * @return scrollPane of type JScrollPane
+	 */
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 	
+	/**
+	 * @return taskProgress of type JLabel
+	 */
 	public JLabel getTaskProgress() {
 		return taskProgress;
 	}
 	
+	/**
+	 * @return taskList of type JPanel
+	 */
 	public JPanel getTaskList() {
 		return taskList;
 	}
 	
+	/**
+	 * Sorts components in taskList according to specific requirements.
+	 * @param sortingOption
+	 */
 	public void sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
@@ -83,13 +103,12 @@ public class TaskHandler implements TaskListener {
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
 	}
-
-	@Override
-	public void taskChanged(Task t) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	/**
+	 * Runs when a task is marked as complete
+	 * updates task progress label
+	 * and updates the swing component
+	 */
 	@Override
 	public void taskCompleted(Task t) {
 		// TODO Auto-generated method stub
@@ -100,6 +119,11 @@ public class TaskHandler implements TaskListener {
 		SwingUtilities.updateComponentTreeUI(taskList);
 	}
 
+	/**
+	 * Runs when a task is unmarked as completed
+	 * updates task progress label
+	 * and updates the swing component
+	 */
 	@Override
 	public void taskUncompleted(Task t) {
 		// TODO Auto-generated method stub
@@ -110,6 +134,11 @@ public class TaskHandler implements TaskListener {
 		SwingUtilities.updateComponentTreeUI(taskList);
 	}
 
+	/**
+	 * Runs when a task is created
+	 * updates task progress label
+	 * and updates the swing component
+	 */
 	@Override
 	public void taskCreated(Task t) {
 		// TODO Auto-generated method stub
@@ -121,10 +150,14 @@ public class TaskHandler implements TaskListener {
 		//update the frame to show currently visible tasks.
 		SwingUtilities.updateComponentTreeUI(taskList);
 	}
-
+	
+	/**
+	 * Runs when a task is removed
+	 * updates task progress label
+	 * and updates the swing component
+	 */
 	@Override
 	public void taskRemoved(Task t) {
-		// TODO Auto-generated method stub
 		taskList.remove(t.getGuiComponent());
 		if (t.isComplete()) {
 			completedTaskCount--;
@@ -142,6 +175,12 @@ public class TaskHandler implements TaskListener {
 	 */
 	private void updateTaskProgress() {
 		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+	}
+
+	@Override
+	public void taskChanged(Task t) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
