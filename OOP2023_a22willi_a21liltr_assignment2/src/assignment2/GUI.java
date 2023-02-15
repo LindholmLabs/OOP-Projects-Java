@@ -3,7 +3,6 @@ package assignment2;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,10 @@ public class GUI implements ActionListener {
 	// TaskHandler also tracks the amount of tasks created, and the amount of tasks marked completed.
 	private TaskHandler taskHandler;
 	private JFrame frame = new JFrame();
-	private JPanel menu;
+	private JPanel menu, taskList;
+	private JLabel taskProgress;
+	private int completedTaskCount;
+	private JScrollPane scrollPane;
 	private Dimension menuBar = new Dimension(50, 50);
 	private Dimension window = new Dimension(600, 500);
 	private Map<String, JButton> buttons = new HashMap<String, JButton>();
@@ -40,11 +42,22 @@ public class GUI implements ActionListener {
 		createMenuButton("work", "New WorkTask");
 		createMenuButton("sort", "Sort");
 		
+		
+		taskList = new JPanel();
+		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
+		
+		scrollPane = new JScrollPane();
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		scrollPane.getViewport().add(taskList);
+		
+		completedTaskCount = 0;
+		taskProgress = new JLabel();
+		taskProgress.setHorizontalAlignment(JLabel.CENTER);
+		
 		frame.add(menu, BorderLayout.NORTH);
 		
-		taskHandler = new TaskHandler();
-		frame.add(taskHandler.GetScrollPane());
-		frame.add(taskHandler.GetTaskProgress(), BorderLayout.SOUTH);
+		frame.add(scrollPane);
+		frame.add(taskProgress, BorderLayout.SOUTH);
 		
 		frame.setVisible(true);
 	}
@@ -77,6 +90,49 @@ public class GUI implements ActionListener {
 		//If no selection is made (user cancelled) return empty string.
 		return "";
 	}
+	
+	public void addTask(Task t) {
+		taskList.add(t.getGuiComponent());
+		SwingUtilities.updateComponentTreeUI(taskList);
+	}
+	
+	public void removeTask(Task t) {
+		taskList.remove(t.getGuiComponent());
+		if (t.isComplete()) {
+			completedTaskCount--;
+		}
+	}
+	
+	public void increaseTaskCount(int ammount) {
+		completedTaskCount += ammount;
+	}
+	
+	public void decreaseTaskCount(int ammount) {
+		completedTaskCount -= ammount;
+	}
+	
+	public int getTaskCount() {
+		return taskList.getComponentCount();
+	}
+	
+
+	public Task getTaskItem(int i) {
+		return (Task)taskList.getComponent(i);
+	}
+	
+	public void clearTaskList() {
+		taskList.removeAll();
+	}
+	
+	
+	/*
+	 * Updates the task progress to show the current amount
+	 * of tasks.
+	 */
+	public void updateTaskProgress() {
+		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
+	}
+
 	
 	
 	/*

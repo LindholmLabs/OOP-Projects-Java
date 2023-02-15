@@ -14,37 +14,18 @@ import se.his.it401g.todo.Task;
 import se.his.it401g.todo.TaskListener;
 
 public class TaskHandler implements TaskListener {
-	private JPanel taskList;
-	private JScrollPane scrollPane;
-	private JLabel taskProgress;
-	private int completedTaskCount;
+	private GUI gui;
 	
-	public TaskHandler() {
-		taskList = new JPanel();
-		taskList.setLayout(new BoxLayout(taskList, BoxLayout.PAGE_AXIS));
-		
-		scrollPane = new JScrollPane();
-		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-		scrollPane.getViewport().add(taskList);
-		
-		completedTaskCount = 0;
-		taskProgress = new JLabel();
-		taskProgress.setHorizontalAlignment(JLabel.CENTER);
-		updateTaskProgress();
+	public TaskHandler(GUI gui) {
+		this.gui = gui;
+		gui.updateTaskProgress();
 	}
 	
-	public JScrollPane GetScrollPane() {
-		return scrollPane;
-	}
-	
-	public JLabel GetTaskProgress() {
-		return taskProgress;
-	}
 	
 	public void Sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
-		for (int i = 0; i < taskList.getComponentCount(); i++) {
-			sortedList.add((Task)taskList.getComponent(i));
+		for (int i = 0; i < gui.getTaskCount(); i++) {
+			gui.addTask(gui.getTaskItem(i));
 		}
 		
 		switch (sortingOption)
@@ -69,15 +50,12 @@ public class TaskHandler implements TaskListener {
 		    default:
 		    	
 		}
-		taskList.removeAll();
+		gui.clearTaskList();
 		
 		for (int i = 0; i < sortedList.size(); i++) {
-			taskList.add(sortedList.get(i).getGuiComponent());
+			gui.addTask(sortedList.get(i));
 			
 		}
-		
-		//update the frame to show currently visible tasks.
-		SwingUtilities.updateComponentTreeUI(taskList);
 	}
 
 	@Override
@@ -89,55 +67,32 @@ public class TaskHandler implements TaskListener {
 	@Override
 	public void taskCompleted(Task t) {
 		// TODO Auto-generated method stub
-		completedTaskCount++;
-		updateTaskProgress();
-		
-		//update the frame to show currently visible tasks.
-		SwingUtilities.updateComponentTreeUI(taskList);
+		gui.increaseTaskCount(1);
+		gui.updateTaskProgress();
 	}
 
 	@Override
 	public void taskUncompleted(Task t) {
 		// TODO Auto-generated method stub
-		completedTaskCount--;
-		updateTaskProgress();
 		
-		//update the frame to show currently visible tasks.
-		SwingUtilities.updateComponentTreeUI(taskList);
+		gui.decreaseTaskCount(1);
+		gui.updateTaskProgress();
 	}
 
 	@Override
 	public void taskCreated(Task t) {
 		// TODO Auto-generated method stub
 		t.setTaskListener(this);
-		taskList.add(t.getGuiComponent());
-		
-		updateTaskProgress();
+		gui.addTask(t);
 		
 		//update the frame to show currently visible tasks.
-		SwingUtilities.updateComponentTreeUI(taskList);
+		gui.updateTaskProgress();
 	}
 
 	@Override
 	public void taskRemoved(Task t) {
 		// TODO Auto-generated method stub
-		taskList.remove(t.getGuiComponent());
-		if (t.isComplete()) {
-			completedTaskCount--;
-		}
-		
-		updateTaskProgress();
-		
-		//update the frame to show currently visible tasks.
-		SwingUtilities.updateComponentTreeUI(taskList);
+		gui.removeTask(t);
+		gui.updateTaskProgress();
 	}
-	
-	/*
-	 * Updates the task progress to show the current amount
-	 * of tasks.
-	 */
-	private void updateTaskProgress() {
-		taskProgress.setText(completedTaskCount + " out of " + taskList.getComponentCount() + " tasks completed.");
-	}
-
 }
