@@ -43,8 +43,8 @@ public class GUI implements ActionListener {
 		frame.add(menu, BorderLayout.NORTH);
 		
 		taskHandler = new TaskHandler();
-		frame.add(taskHandler.GetScrollPane());
-		frame.add(taskHandler.GetTaskProgress(), BorderLayout.SOUTH);
+		frame.add(taskHandler.getScrollPane());
+		frame.add(taskHandler.getTaskProgress(), BorderLayout.SOUTH);
 		
 		frame.setVisible(true);
 	}
@@ -63,7 +63,7 @@ public class GUI implements ActionListener {
 	
 	
 	/*
-	 * Used to create generic dialogueboxes
+	 * Used to create generic dialogue boxes
 	 * 
 	 * @param 	String[] options List of options available to the user.
 	 * @param 	String label 	 Title shown to user during selection process.
@@ -80,18 +80,18 @@ public class GUI implements ActionListener {
 	
 	
 	/*
-	 * Handles actions performed by the user eg buttonclicks.
+	 * Handles actions performed by the user e.g. button clicks.
 	 * 
-	 * @param ActionEvent e tracks all occuring events.
+	 * @param ActionEvent e tracks all occurring events.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().equals(buttons.get("sort"))) {
-			//Open dialoguebox where user can choose sorting algorithm
+			//Open dialogue box where user can choose sorting algorithm
 			String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
 			String selectedOption = SelectionBox("Choose Sorting type", sortingOptions);
-			taskHandler.Sort(selectedOption);
+			taskHandler.sort(selectedOption);
 		}
 		else {
 			Task t;	
@@ -102,7 +102,9 @@ public class GUI implements ActionListener {
 				t = new StudyTask();
 			}
 			else {
-				t = new WorkTask();
+				String[] colors = {"BLACK", "RED", "GREEN", "BLUE"};
+				String selectedColor = SelectionBox("Choose color", colors);
+				t = new WorkTask(selectedColor);
 			}
 			taskHandler.taskCreated(t);	
 		}	
