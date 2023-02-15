@@ -104,7 +104,6 @@ public class GUI implements ActionListener {
 			else {
 				t = new WorkTask();
 			}
-			
 			taskHandler.taskCreated(t);	
 		}	
 	}
