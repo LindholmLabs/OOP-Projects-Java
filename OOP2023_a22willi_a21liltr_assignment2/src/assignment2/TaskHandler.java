@@ -41,6 +41,10 @@ public class TaskHandler implements TaskListener {
 		return taskProgress;
 	}
 	
+	public JPanel getTaskList() {
+		return taskList;
+	}
+	
 	public void sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
