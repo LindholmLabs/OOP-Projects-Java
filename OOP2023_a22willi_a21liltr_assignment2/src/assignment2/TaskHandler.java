@@ -33,15 +33,15 @@ public class TaskHandler implements TaskListener {
 		updateTaskProgress();
 	}
 	
-	public JScrollPane GetScrollPane() {
+	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 	
-	public JLabel GetTaskProgress() {
+	public JLabel getTaskProgress() {
 		return taskProgress;
 	}
 	
-	public void Sort(String sortingOption) {
+	public void sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
 			sortedList.add((Task)taskList.getComponent(i));
