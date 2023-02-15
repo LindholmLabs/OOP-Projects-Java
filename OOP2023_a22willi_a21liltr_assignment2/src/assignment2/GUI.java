@@ -90,7 +90,7 @@ public class GUI implements ActionListener {
 			if (taskHandler.getTaskList().getComponentCount() != 0) {
 				//Open dialogue box where user can choose sorting algorithm
 				String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
-				String selectedOption = selectionBox("Choose Sorting type", sortingOptions);
+				String selectedOption = selectionBox("Sort By:", sortingOptions);
 				taskHandler.sort(selectedOption);
 			}
 		}
