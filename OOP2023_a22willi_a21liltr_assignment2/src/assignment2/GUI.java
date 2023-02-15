@@ -64,7 +64,7 @@ public class GUI implements ActionListener {
 	/*
 	 * Used to select correct sorting algorithm to use.
 	 * 
-	 * @return 	String value corresponing with selected sorting algorithm.
+	 * @return 	String value corresponding with selected sorting algorithm.
 	 */
 	private String selectSort() {
 		String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
@@ -80,7 +80,10 @@ public class GUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().equals(buttons.get("sort"))) {
-			taskHandler.Sort(selectSort());
+			String selectedSort = selectSort();
+			if (!selectedSort.isEmpty()) {
+				taskHandler.Sort(selectSort());				
+			}
 		}
 		else {
 			Task t;	
@@ -93,7 +96,6 @@ public class GUI implements ActionListener {
 			else {
 				t = new WorkTask();
 			}
-			
 			taskHandler.taskCreated(t);	
 		}	
 	}
