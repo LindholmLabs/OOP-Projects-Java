@@ -3,7 +3,6 @@ package assignment2;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,7 +68,7 @@ public class GUI implements ActionListener {
 	 * @param 	String label 	 Title shown to user during selection process.
 	 * @return	String 			 value of selected option.
 	 */
-	public String SelectionBox(String label, String[] options) {
+	public String selectionBox(String label, String[] options) {
 		Object selected = JOptionPane.showInputDialog(null, "Choose sorting type", "Selection", JOptionPane.DEFAULT_OPTION, null, options, "0");
 		if ( selected != null ) {
 		    return selected.toString(); //return selected option.
@@ -88,10 +87,12 @@ public class GUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().equals(buttons.get("sort"))) {
-			//Open dialogue box where user can choose sorting algorithm
-			String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
-			String selectedOption = SelectionBox("Choose Sorting type", sortingOptions);
-			taskHandler.sort(selectedOption);
+			if (taskHandler.getTaskList().getComponentCount() != 0) {
+				//Open dialogue box where user can choose sorting algorithm
+				String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
+				String selectedOption = selectionBox("Sort By:", sortingOptions);
+				taskHandler.sort(selectedOption);
+			}
 		}
 		else {
 			Task t;	
@@ -103,7 +104,7 @@ public class GUI implements ActionListener {
 			}
 			else {
 				String[] colors = {"BLACK", "RED", "GREEN", "BLUE"};
-				String selectedColor = SelectionBox("Choose color", colors);
+				String selectedColor = selectionBox("Choose color", colors);
 				t = new WorkTask(selectedColor);
 			}
 			taskHandler.taskCreated(t);	
