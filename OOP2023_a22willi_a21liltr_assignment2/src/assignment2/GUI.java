@@ -3,6 +3,7 @@ package assignment2;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,36 +52,46 @@ public class GUI implements ActionListener {
 	/*
 	 * Create button, add ActionListener to button and add button to GUI.
 	 * 
-	 * @param key		Used for distinguishing buttons from each other, unique "name"
-	 * @param btnText	Button text
+	 * @param key		Used for distinguishing buttons from each other, unique "name".
+	 * @param btnText	Button text.
 	 */
 	private void createMenuButton(String key, String btnText) {
-		buttons.put(key, new JButton(btnText)); //Create new button and add to Map using key value
-		buttons.get(key).addActionListener(this); //add ActionListener to button
-		menu.add(buttons.get(key)); // add button to GUI
+		buttons.put(key, new JButton(btnText)); //Create new button and add to Map using key value.
+		buttons.get(key).addActionListener(this); //add ActionListener to button.
+		menu.add(buttons.get(key)); // add button to GUI.
 	}
 	
 	
 	/*
-	 * Used to select correct sorting algorithm to use.
+	 * Used to create generic dialogueboxes
 	 * 
-	 * @return 	String value corresponing with selected sorting algorithm.
+	 * @param 	String[] options List of options available to the user.
+	 * @param 	String label 	 Title shown to user during selection process.
+	 * @return	String 			 value of selected option.
 	 */
-	private String selectSort() {
-		String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
-
-		Object selected = JOptionPane.showInputDialog(null, "Choose sorting type", "Selection", JOptionPane.DEFAULT_OPTION, null, sortingOptions, "0");
+	public String SelectionBox(String label, String[] options) {
+		Object selected = JOptionPane.showInputDialog(null, "Choose sorting type", "Selection", JOptionPane.DEFAULT_OPTION, null, options, "0");
 		if ( selected != null ) {
-		    return selected.toString(); //return selected sorting type 
+		    return selected.toString(); //return selected option.
 		}
-		return ""; //user cancelled, returning empty string, no sorting will ensue.
+		//If no selection is made (user cancelled) return empty string.
+		return "";
 	}
-
+	
+	
+	/*
+	 * Handles actions performed by the user eg buttonclicks.
+	 * 
+	 * @param ActionEvent e tracks all occuring events.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().equals(buttons.get("sort"))) {
-			taskHandler.Sort(selectSort());
+			//Open dialoguebox where user can choose sorting algorithm
+			String[] sortingOptions = {"Alphabetical", "Type", "Completed"};
+			String selectedOption = SelectionBox("Choose Sorting type", sortingOptions);
+			taskHandler.Sort(selectedOption);
 		}
 		else {
 			Task t;	
