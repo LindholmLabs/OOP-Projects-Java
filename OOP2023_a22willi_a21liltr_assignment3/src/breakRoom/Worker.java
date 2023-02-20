@@ -73,6 +73,7 @@ public class Worker extends Thread {
 		this.T = r.nextInt(500, 1500); //set the duration between each iteration of task to a random int.
 	}
 	
+	
 	/**
 	 * Constructor
 	 * Creates a worker.
@@ -94,13 +95,14 @@ public class Worker extends Thread {
 	 */
 	private void Queue() {
 		if (!(coffeeQueue.inQueue(this))) {
-			System.out.println("======" + name + " not in queue======");
 			coffeeQueue.enQueue(this);
-		} else {
-			System.out.println("======" + name + " already in queue======");
 		}
 	}
 	
+	
+	/**
+	 * Remove worker from queue.
+	 */
 	private void deQueue() {
 		if (coffeeQueue.inQueue(this)) {
 			coffeeQueue.deQueue(this);
