@@ -14,6 +14,8 @@ public class CoffeeMaker extends Thread {
 	private static int timeScale = 1; // used to change speed of simulation (default = 1).
 	private int timeToCreateCoffee = 2000; //the default time it takes the coffeemaker to create one coffee.
 	private int timeToServeCoffee = 1000; //the default time it takes the coffeemaker to serve one cup of coffee.
+	private int coffeBufferSize = 20; //the max amount of coffees the coffeemaker can store.
+	private int maxWorkerEnergy = 100; //do not give worker more coffee if it exceeds this number. 
 	
 	private Timer timer;
 	private Random random;
@@ -28,8 +30,8 @@ public class CoffeeMaker extends Thread {
 	 */
 	private TimerTask createCoffee = new TimerTask() {
 		public void run() {
-			//only create a new coffee if there are less than 20 coffee in the machine.
-			if ( coffeeBuffer.size() < 20) {
+			//only create a new coffee if there are less than x coffees in the machine.
+			if ( coffeeBuffer.size() < coffeBufferSize) {
 				Coffee coffee = generateRandomCoffee();
 				coffeeBuffer.add(coffee);
 			}
@@ -50,8 +52,11 @@ public class CoffeeMaker extends Thread {
 			if (coffeeQueue.getSize() != 0 && coffeeBuffer.size() != 0) {
 				Worker worker = coffeeQueue.deQueue();
 				Coffee coffee = coffeeBuffer.remove();
-				worker.drink(coffee);
-				System.out.println(worker.getWorkerName() + " enjoyed a " + coffee.getType() + " with " + coffee.getEnergy() + " energy");
+				
+				if (worker.getEnergy() < maxWorkerEnergy ) {
+					worker.drink(coffee);
+					System.out.println(worker.getWorkerName() + " enjoyed a " + coffee.getType() + " with " + coffee.getEnergy() + " energy");
+				}
 			}
 		}
 	};

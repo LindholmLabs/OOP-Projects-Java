@@ -25,6 +25,13 @@ public class Worker extends Thread {
 		public void run() {
 			energy--;
 			
+			//if the worker has replenished energy, the worker should no longer be on break.
+			if (energy >= 100 && onBreak == true) {
+				System.out.println(name + " goes back to work with energy level " + energy);
+				onBreak = false;
+			}
+			
+			
 			/*
 			 * The worker goes home if energy is at 0 or below.
 			 * The worker goes to get coffee if its energy level is below 30.
@@ -39,12 +46,6 @@ public class Worker extends Thread {
 				Queue();
 			} else {
 				System.out.println(name + " Is working with energy level " + energy);
-			}
-			
-			//if the worker has replenished energy, the worker should no longer be on break.
-			if (energy >= 100 && onBreak == true) {
-				System.out.println(name + " goes back to work with energy level " + energy);
-				onBreak = false;
 			}
 		}
 	};
@@ -124,6 +125,15 @@ public class Worker extends Thread {
 	 */
 	public String getWorkerName() {
 		return this.name;
+	}
+	
+	
+	/**
+	 * Get the ammount of energy the worker currently has.
+	 * @return 	energy as int.
+	 */
+	public int getEnergy() {
+		return this.energy;
 	}
 	
 	
