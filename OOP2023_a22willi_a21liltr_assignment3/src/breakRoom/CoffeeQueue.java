@@ -1,4 +1,4 @@
-package fika;
+package breakRoom;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

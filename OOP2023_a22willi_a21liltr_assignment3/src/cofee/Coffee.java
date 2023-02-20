@@ -1,4 +1,4 @@
-package fika;
+package cofee;
 
 public interface Coffee {
 	public int getEnergy();

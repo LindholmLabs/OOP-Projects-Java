@@ -1,4 +1,4 @@
-package fika;
+package breakRoom;
 
 public class Main {
 

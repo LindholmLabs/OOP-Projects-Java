@@ -1,9 +1,13 @@
-package fika;
+package breakRoom;
 
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import cofee.BlackCoffee;
+import cofee.Cappuccino;
+import cofee.Coffee;
 
 public class CoffeeMaker extends Thread {
 	private static int timeScale = 1; // used to change speed of simulation (default = 1)

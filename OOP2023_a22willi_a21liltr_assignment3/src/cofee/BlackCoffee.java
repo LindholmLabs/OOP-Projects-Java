@@ -1,6 +1,6 @@
-package fika;
+package cofee;
 
-public class Latte implements Coffee {
+public class BlackCoffee implements Coffee {
 	private int energy;
 	private String type;
 	
@@ -8,10 +8,11 @@ public class Latte implements Coffee {
 	 * Constructor of coffee class
 	 * @param energy	Sets the energy of the coffee.
 	 */
-	public Latte(int energy) {
+	public BlackCoffee(int energy) {
 		this.energy = energy;
-		this.type = "Latte";
+		this.type = "Black Coffee";
 	}
+	
 	
 	/**
 	 * Get the energy of coffee
@@ -30,7 +31,12 @@ public class Latte implements Coffee {
 	public void setEnergy(int energy) {
 		this.energy = energy;
 	}
-
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+	
 	/**
 	 * Return the type of coffee.
 	 * @return type	The type of coffee.
@@ -39,4 +45,5 @@ public class Latte implements Coffee {
 	public String getType() {
 		return this.type;
 	}
+
 }

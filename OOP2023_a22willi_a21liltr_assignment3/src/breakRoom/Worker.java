@@ -1,8 +1,10 @@
-package fika;
+package breakRoom;
 
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cofee.Coffee;
 
 public class Worker extends Thread {
 	private static int timeScale = 1; // used to change speed of simulation (default = 1)

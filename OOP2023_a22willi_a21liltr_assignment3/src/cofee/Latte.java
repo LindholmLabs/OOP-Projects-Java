@@ -1,6 +1,6 @@
-package fika;
+package cofee;
 
-public class Cappuccino implements Coffee {
+public class Latte implements Coffee {
 	private int energy;
 	private String type;
 	
@@ -8,9 +8,9 @@ public class Cappuccino implements Coffee {
 	 * Constructor of coffee class
 	 * @param energy	Sets the energy of the coffee.
 	 */
-	public Cappuccino(int energy) {
+	public Latte(int energy) {
 		this.energy = energy;
-		this.type = "Cappuccino";
+		this.type = "Latte";
 	}
 	
 	/**
@@ -39,5 +39,4 @@ public class Cappuccino implements Coffee {
 	public String getType() {
 		return this.type;
 	}
-
 }
