@@ -1,25 +1,38 @@
 package fika;
 
 public class Latte implements Coffee {
-	
 	private int energy;
 	
-	public Latte() {
-		
+	/**
+	 * Constructor of coffee class
+	 * @param energy	Sets the energy of the coffee.
+	 */
+	public Latte(int energy) {
+		this.energy = energy;
 	}
-
+	
+	/**
+	 * Allows a coffee to be "used".
+	 * @return returns the coffees energy.
+	 */
 	@Override
 	public int drink() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.energy;
 	}
-
+	
+	/**
+	 * Get the energy of coffee
+	 * @return 	returns energy as integer.
+	 */
 	@Override
 	public int getEnergy() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.energy;
 	}
-
+	
+	/**
+	 * Set the energy of cofee object.
+	 * @param int energy	sets the energy of coffee object.
+	 */
 	@Override
 	public void setEnergy(int energy) {
 		this.energy = energy;

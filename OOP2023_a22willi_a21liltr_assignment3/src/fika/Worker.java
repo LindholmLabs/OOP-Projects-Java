@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Worker extends Thread {
-	private static int TimeScale = 10; // used to change speed of simulation (default = 1)
+	private static int timeScale = 1; // used to change speed of simulation (default = 1)
 	
 	private String name;
 	private int energy;
@@ -34,7 +34,7 @@ public class Worker extends Thread {
 		this.energy = r.nextInt(30, 90);
 		this.T = r.nextInt(500, 1500);
 		
-		timer.scheduleAtFixedRate(task, T / TimeScale, T / TimeScale);
+		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 		
 		
 	}
@@ -44,6 +44,6 @@ public class Worker extends Thread {
 		this.energy = energy;
 		this.T = r.nextInt(500, 1500);
 		
-		timer.scheduleAtFixedRate(task, T / TimeScale, T / TimeScale);
+		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 	}
 }
