@@ -5,16 +5,26 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Worker extends Thread {
+	private static int TimeScale = 10; // used to change speed of simulation (default = 1)
+	
 	private String name;
 	private int energy;
 	private Random r = new Random();
-	private int T;
+	private int T; //delay used between every iteration.
 	private Timer timer = new Timer();
 	
 	private TimerTask task = new TimerTask() {
 		public void run() {
 			energy--;
-			System.out.println(name + ": " + energy);
+			
+			if (energy <= 0) {
+				System.out.println(name + " is going home with energy level " + energy);
+				task.cancel();
+			} else if (energy < 30) {
+				System.out.println(name + " is taking a break with energy level " + energy);
+			} else {
+				System.out.println(name + " Is working with energy level " + energy);
+			}
 		}
 	};
 	
@@ -24,7 +34,7 @@ public class Worker extends Thread {
 		this.energy = r.nextInt(30, 90);
 		this.T = r.nextInt(500, 1500);
 		
-		timer.scheduleAtFixedRate(task, T, T);
+		timer.scheduleAtFixedRate(task, T / TimeScale, T / TimeScale);
 		
 		
 	}
@@ -34,6 +44,6 @@ public class Worker extends Thread {
 		this.energy = energy;
 		this.T = r.nextInt(500, 1500);
 		
-		timer.scheduleAtFixedRate(task, T, T);
+		timer.scheduleAtFixedRate(task, T / TimeScale, T / TimeScale);
 	}
 }
