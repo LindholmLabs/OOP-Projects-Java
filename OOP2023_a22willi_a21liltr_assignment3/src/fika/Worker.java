@@ -39,12 +39,15 @@ public class Worker extends Thread {
 		}
 	};
 	
+	
 	/**
-	 * start queuing to get coffee.
+	 * Run thread. 
+	 * Starts scheduled task.
 	 */
-	private void Queue() {
-		coffeeQueue.enQueue(this);
+	public void run() {
+		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 	}
+	
 	
 	/**
 	 * Constructor
@@ -57,8 +60,6 @@ public class Worker extends Thread {
 		this.coffeeQueue = coffeeQueue;
 		this.energy = r.nextInt(30, 90); //set the starting value of energy to a random int.
 		this.T = r.nextInt(500, 1500); //set the duration between each iteration of task to a random int.
-		
-		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 	}
 	
 	/**
@@ -73,9 +74,16 @@ public class Worker extends Thread {
 		this.coffeeQueue = coffeeQueue;
 		this.energy = energy;
 		this.T = r.nextInt(500, 1500);
-		
-		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 	}
+	
+	
+	/**
+	 * start queuing to get coffee.
+	 */
+	private void Queue() {
+		coffeeQueue.enQueue(this);
+	}
+	
 	
 	/**
 	 * Allows a worker to drink a cup of coffee
@@ -85,7 +93,10 @@ public class Worker extends Thread {
 		this.energy += coffee.getEnergy();
 	}
 	
-	
+	/**
+	 * Get the workers name
+	 * @return returns the workers name.
+	 */
 	public String getWorkerName() {
 		return this.name;
 	}

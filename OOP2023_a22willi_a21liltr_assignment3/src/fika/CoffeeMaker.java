@@ -11,9 +11,14 @@ public class CoffeeMaker extends Thread {
 	private int timeToCreateCoffee = 2000; //the default time it takes the coffeemaker to create one coffee.
 	private int timeToServeCoffee = 1000; //the default time it takes the coffeemaker to serve one cup of coffee.
 	
-	private CoffeeQueue coffeeQueue;
-	private ConcurrentLinkedQueue<Coffee> coffeeBuffer = new ConcurrentLinkedQueue<Coffee>();
+	private CoffeeQueue coffeeQueue; //queue for workers.
+	private ConcurrentLinkedQueue<Coffee> coffeeBuffer; //queue for coffee.
 	
+	
+	/**
+	 * TimerTask used for creating coffee.
+	 * Each cup is added to the coffeeBuffer where a worker then can retrieve it.
+	 */
 	private TimerTask createCoffee = new TimerTask() {
 		public void run() {
 			//only create a new coffee if there are less than 20 coffee in the machine.
@@ -27,6 +32,12 @@ public class CoffeeMaker extends Thread {
 		}
 	};
 	
+	
+	/**
+	 * Timertask serveCoffee.
+	 * Serves the first worker in the queue with the next cup of coffee from the coffeeBuffer;
+	 * a concurrentLinkedQueue containing all cups of coffee the machine has created.
+	 */
 	private TimerTask serveCoffee = new TimerTask() {
 		public void run() {
 			if (coffeeQueue.getSize() != 0 && coffeeBuffer.size() != 0) {
@@ -38,12 +49,32 @@ public class CoffeeMaker extends Thread {
 		}
 	};
 	
-	public CoffeeMaker(CoffeeQueue coffeeQueue) {
-		this.coffeeQueue = coffeeQueue;
+	
+	/**
+	 * Run thread.
+	 * Start serveCoffee and CreateCoffee schedules.
+	 */
+	public void run() {
 		timer.scheduleAtFixedRate(createCoffee, timeToCreateCoffee / timeScale, timeToCreateCoffee / timeScale);
 		timer.scheduleAtFixedRate(serveCoffee, timeToServeCoffee / timeScale, timeToServeCoffee / timeScale);
 	}
 	
+	
+	/**
+	 * Constructor, requires variable coffeeQueue
+	 * @param coffeeQueue The queue that workers use to interface with the coffeemaker.
+	 */
+	public CoffeeMaker(CoffeeQueue coffeeQueue) {
+		this.coffeeQueue = coffeeQueue;
+		this.coffeeBuffer = new ConcurrentLinkedQueue<Coffee>();
+	}
+	
+	
+	/**
+	 * Generate a random coffee. Each coffee gets a random energy value
+	 * depending on type.
+	 * @return Coffee	Returns a coffee of random type.
+	 */
 	private Coffee generateRandomCoffee() {
 		Random r = new Random();
 		int coffeType = r.nextInt(0, 2);
