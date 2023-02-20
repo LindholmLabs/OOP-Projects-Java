@@ -3,20 +3,17 @@ package breakRoom;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		
 		CoffeeQueue queue = new CoffeeQueue();
+		CoffeeMaker coffeeMachine = new CoffeeMaker(queue);
 		
-		CoffeeMaker thr4 = new CoffeeMaker(queue);
+		Worker worker1 = new Worker("William", queue);
+		Worker worker2 = new Worker("Lili", queue);
+		Worker worker3 = new Worker("Sol", queue);
 		
-		
-		Worker thr1 = new Worker("William", queue);
-		Worker thr2 = new Worker("Lili", queue);
-		Worker thr3 = new Worker("Sol", queue);
-		
-		thr1.start();
-		thr2.start();
-		thr3.start();
-		thr4.start();
+		worker1.start();
+		worker2.start();
+		worker3.start();
+		coffeeMachine.start();
 	}
 
 }
