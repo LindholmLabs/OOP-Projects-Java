@@ -2,6 +2,7 @@ package fika;
 
 public class BlackCoffee implements Coffee {
 	private int energy;
+	private String type;
 	
 	/**
 	 * Constructor of coffee class
@@ -9,16 +10,9 @@ public class BlackCoffee implements Coffee {
 	 */
 	public BlackCoffee(int energy) {
 		this.energy = energy;
+		this.type = "Black Coffee";
 	}
 	
-	/**
-	 * Allows a coffee to be "used".
-	 * @return returns the coffees energy.
-	 */
-	@Override
-	public int drink() {
-		return this.energy;
-	}
 	
 	/**
 	 * Get the energy of coffee
@@ -36,6 +30,20 @@ public class BlackCoffee implements Coffee {
 	@Override
 	public void setEnergy(int energy) {
 		this.energy = energy;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+	
+	/**
+	 * Return the type of coffee.
+	 * @return type	The type of coffee.
+	 */
+	@Override
+	public String getType() {
+		return this.type;
 	}
 
 }

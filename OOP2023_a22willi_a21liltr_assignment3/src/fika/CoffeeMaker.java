@@ -29,7 +29,12 @@ public class CoffeeMaker extends Thread {
 	
 	private TimerTask serveCoffee = new TimerTask() {
 		public void run() {
-			
+			if (coffeeQueue.getSize() != 0 && coffeeBuffer.size() != 0) {
+				Worker worker = coffeeQueue.deQueue();
+				Coffee coffee = coffeeBuffer.remove();
+				worker.drink(coffee);
+				System.out.println(worker.getWorkerName() + " enjoyed a " + coffee.getType() + " with " + coffee.getEnergy() + " energy");
+			}
 		}
 	};
 	

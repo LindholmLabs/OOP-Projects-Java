@@ -14,10 +14,19 @@ public class Worker extends Thread {
 	private Timer timer = new Timer();
 	private CoffeeQueue coffeeQueue;
 	
+	/**
+	 * Timertask, runs periodically to determine how much energy the worker has
+	 * and to determine the workers next move.
+	 */
 	private TimerTask task = new TimerTask() {
 		public void run() {
 			energy--;
 			
+			/*
+			 * The worker goes home if energy is at 0 or below.
+			 * The worker goes to get coffee if its energy level is below 30.
+			 * Otherwise keep working.
+			 */
 			if (energy <= 0) {
 				System.out.println(name + " is going home with energy level " + energy);
 				task.cancel();
@@ -30,20 +39,35 @@ public class Worker extends Thread {
 		}
 	};
 	
+	/**
+	 * start queuing to get coffee.
+	 */
 	private void Queue() {
 		coffeeQueue.enQueue(this);
 	}
 	
-	
+	/**
+	 * Constructor
+	 * Creates a worker.
+	 * @param name			Name of the worker.
+	 * @param coffeeQueue	The queue for getting coffee.
+	 */
 	public Worker(String name, CoffeeQueue coffeeQueue) {
 		this.name = name;
 		this.coffeeQueue = coffeeQueue;
-		this.energy = r.nextInt(30, 90);
-		this.T = r.nextInt(500, 1500);
+		this.energy = r.nextInt(30, 90); //set the starting value of energy to a random int.
+		this.T = r.nextInt(500, 1500); //set the duration between each iteration of task to a random int.
 		
 		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 	}
 	
+	/**
+	 * Constructor
+	 * Creates a worker.
+	 * @param name			Name of the worker.
+	 * @param coffeeQueue	The queue for getting coffee.
+	 * @param energy		The ammount of energy the worker has.
+	 */
 	public Worker(String name, CoffeeQueue coffeeQueue, int energy) {
 		this.name = name;
 		this.coffeeQueue = coffeeQueue;
@@ -51,5 +75,18 @@ public class Worker extends Thread {
 		this.T = r.nextInt(500, 1500);
 		
 		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
+	}
+	
+	/**
+	 * Allows a worker to drink a cup of coffee
+	 * @param coffee the coffee to drink
+	 */
+	public void drink(Coffee coffee) {
+		this.energy += coffee.getEnergy();
+	}
+	
+	
+	public String getWorkerName() {
+		return this.name;
 	}
 }

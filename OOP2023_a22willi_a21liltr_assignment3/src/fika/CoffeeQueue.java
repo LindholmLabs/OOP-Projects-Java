@@ -13,7 +13,11 @@ public class CoffeeQueue {
 		coffeeQueue.add(w);
 	}
 	
-	public void deQueue() {
-		coffeeQueue.remove();
+	public Worker deQueue() {
+		return coffeeQueue.remove();
+	}
+	
+	public int getSize() {
+		return coffeeQueue.size();
 	}
 }
