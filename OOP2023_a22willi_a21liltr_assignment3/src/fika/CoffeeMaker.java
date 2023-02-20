@@ -6,27 +6,37 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class CoffeeMaker extends Thread {
-	private static int timeScale = 10; // used to change speed of simulation (default = 1)
+	private static int timeScale = 1; // used to change speed of simulation (default = 1)
 	private Timer timer = new Timer();
-	private int T = 2000; //the default time it takes the coffeemaker to create one coffee.
+	private int timeToCreateCoffee = 2000; //the default time it takes the coffeemaker to create one coffee.
+	private int timeToServeCoffee = 1000; //the default time it takes the coffeemaker to serve one cup of coffee.
 	
-	private ConcurrentLinkedQueue<Coffee> coffeBuffer = new ConcurrentLinkedQueue<Coffee>();
+	private CoffeeQueue coffeeQueue;
+	private ConcurrentLinkedQueue<Coffee> coffeeBuffer = new ConcurrentLinkedQueue<Coffee>();
 	
-	private TimerTask task = new TimerTask() {
+	private TimerTask createCoffee = new TimerTask() {
 		public void run() {
 			//only create a new coffee if there are less than 20 coffee in the machine.
-			if ( coffeBuffer.size() < 20) {
+			if ( coffeeBuffer.size() < 20) {
 				Coffee coffee = generateRandomCoffee();
-				coffeBuffer.add(coffee);
+				coffeeBuffer.add(coffee);
 			}
 			
 			//announce how many coffees are available.
-			System.out.println("Coffee Machine has " + coffeBuffer.size() + " drinks in reserve.");
+			System.out.println("Coffee Machine has " + coffeeBuffer.size() + " drinks in reserve.");
 		}
 	};
 	
-	public CoffeeMaker() {
-		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
+	private TimerTask serveCoffee = new TimerTask() {
+		public void run() {
+			
+		}
+	};
+	
+	public CoffeeMaker(CoffeeQueue coffeeQueue) {
+		this.coffeeQueue = coffeeQueue;
+		timer.scheduleAtFixedRate(createCoffee, timeToCreateCoffee / timeScale, timeToCreateCoffee / timeScale);
+		timer.scheduleAtFixedRate(serveCoffee, timeToServeCoffee / timeScale, timeToServeCoffee / timeScale);
 	}
 	
 	private Coffee generateRandomCoffee() {
