@@ -1,6 +1,6 @@
-package cofee;
+package coffee;
 
-public class BlackCoffee implements Coffee {
+public class Cappuccino implements Coffee {
 	private int energy;
 	private String type;
 	
@@ -8,11 +8,10 @@ public class BlackCoffee implements Coffee {
 	 * Constructor of coffee class
 	 * @param energy	Sets the energy of the coffee.
 	 */
-	public BlackCoffee(int energy) {
+	public Cappuccino(int energy) {
 		this.energy = energy;
-		this.type = "Black Coffee";
+		this.type = "Cappuccino";
 	}
-	
 	
 	/**
 	 * Get the energy of coffee
@@ -31,12 +30,7 @@ public class BlackCoffee implements Coffee {
 	public void setEnergy(int energy) {
 		this.energy = energy;
 	}
-	
-	@Override
-	public String toString() {
-		return super.toString();
-	}
-	
+
 	/**
 	 * Return the type of coffee.
 	 * @return type	The type of coffee.

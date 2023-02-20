@@ -1,4 +1,4 @@
-package cofee;
+package coffee;
 
 public interface Coffee {
 	public int getEnergy();

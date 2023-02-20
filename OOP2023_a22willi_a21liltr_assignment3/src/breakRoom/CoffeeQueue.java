@@ -33,10 +33,31 @@ public class CoffeeQueue {
 	}
 	
 	/**
+	 * Remove specific worker from coffeeQueue.
+	 * @param w the worker to remove.
+	 */
+	public void deQueue(Worker w) {
+		coffeeQueue.remove(w);
+	}
+	
+	
+	/**
 	 * get the ammount of workers currently queuing for coffee.
 	 * @return size of coffeeQueue.
 	 */
 	public int getSize() {
 		return coffeeQueue.size();
+	}
+	
+	/**
+	 * Used to determine if worker exists in queue.
+	 * @param 	w the worker whose presence we are observing.
+	 * @return	true if the specified worker exists, else false.
+	 */
+	public boolean inQueue(Worker w) {
+		if (coffeeQueue.contains(w)) {
+			return true;
+		}
+		return false;
 	}
 }

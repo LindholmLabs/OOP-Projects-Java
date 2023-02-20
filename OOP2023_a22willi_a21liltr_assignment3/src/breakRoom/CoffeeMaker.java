@@ -5,15 +5,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import cofee.BlackCoffee;
-import cofee.Cappuccino;
-import cofee.Coffee;
+import coffee.BlackCoffee;
+import coffee.Cappuccino;
+import coffee.Coffee;
+import coffee.Latte;
 
 public class CoffeeMaker extends Thread {
-	private static int timeScale = 1; // used to change speed of simulation (default = 1)
-	private Timer timer = new Timer();
+	private static int timeScale = 1; // used to change speed of simulation (default = 1).
 	private int timeToCreateCoffee = 2000; //the default time it takes the coffeemaker to create one coffee.
 	private int timeToServeCoffee = 1000; //the default time it takes the coffeemaker to serve one cup of coffee.
+	
+	private Timer timer;
+	private Random random;
 	
 	private CoffeeQueue coffeeQueue; //queue for workers.
 	private ConcurrentLinkedQueue<Coffee> coffeeBuffer; //queue for coffee.
@@ -71,6 +74,8 @@ public class CoffeeMaker extends Thread {
 	public CoffeeMaker(CoffeeQueue coffeeQueue) {
 		this.coffeeQueue = coffeeQueue;
 		this.coffeeBuffer = new ConcurrentLinkedQueue<Coffee>();
+		this.timer = new Timer();
+		this.random = new Random();
 	}
 	
 	
@@ -80,19 +85,18 @@ public class CoffeeMaker extends Thread {
 	 * @return Coffee	Returns a coffee of random type.
 	 */
 	private Coffee generateRandomCoffee() {
-		Random r = new Random();
-		int coffeType = r.nextInt(0, 2);
+		int coffeType = random.nextInt(1, 4);
 		int energy;
 		
 		switch(coffeType) {
-			case 0:
-				energy = r.nextInt(25, 35);
-				return new BlackCoffee(energy);
 			case 1:
-				energy = r.nextInt(15, 20);
+				energy = random.nextInt(25, 35);
 				return new BlackCoffee(energy);
 			case 2:
-				energy = r.nextInt(20, 30);
+				energy = random.nextInt(15, 20);
+				return new Latte(energy);
+			case 3:
+				energy = random.nextInt(20, 30);
 				return new Cappuccino(energy);
 			default:
 				System.out.println("Something went wrong");
