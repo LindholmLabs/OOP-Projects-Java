@@ -32,6 +32,7 @@ public class CoffeeQueue {
 		return coffeeQueue.remove();
 	}
 	
+	
 	/**
 	 * Remove specific worker from coffeeQueue.
 	 * @param w the worker to remove.
@@ -48,6 +49,7 @@ public class CoffeeQueue {
 	public int getSize() {
 		return coffeeQueue.size();
 	}
+	
 	
 	/**
 	 * Used to determine if worker exists in queue.

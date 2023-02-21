@@ -13,7 +13,6 @@ public class Main extends Thread{
 		Worker worker4 = new Worker("worker4", queue);
 		
 		//start all threads. (start simulation).
-		
 		worker1.start();
 		worker2.start();
 		worker3.start();
@@ -23,8 +22,14 @@ public class Main extends Thread{
 		//wait for 20 seconds
 		Thread.sleep(20000);
 		
-		//exit simulation
-		System.exit(0);
+		//stop all threads. (exit simulation).
+		worker1.cancel();
+		worker2.cancel();
+		worker3.cancel();
+		worker4.cancel();
+		coffeeMachine.cancel();
+		
+		System.out.println("======Closed Simulation=====");
 	}
 
 }

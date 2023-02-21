@@ -26,7 +26,7 @@ public class Worker extends Thread {
 			energy--;
 			
 			//if the worker has replenished energy, the worker should no longer be on break.
-			if (energy >= 100 && onBreak == true) {
+			if (energy >= 100 && onBreak) {
 				System.out.println(name + " goes back to work with energy level " + energy);
 				onBreak = false;
 			}
@@ -39,8 +39,8 @@ public class Worker extends Thread {
 			 */
 			if (energy <= 0) {
 				System.out.println(name + " is going home with energy level " + energy);
-				task.cancel();
-			} else if (energy < 30 || onBreak == true) {
+				cancel();
+			} else if (energy < 30 || onBreak) {
 				onBreak = true;
 				System.out.println(name + " is taking a break with energy level " + energy);
 				Queue();
@@ -57,6 +57,14 @@ public class Worker extends Thread {
 	 */
 	public void run() {
 		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
+	}
+	
+	/**
+	 * Used to cancel the scheduled task. 
+	 * Subsequently closes thread.
+	 */
+	public void cancel() {
+		task.cancel();
 	}
 	
 	
@@ -115,7 +123,7 @@ public class Worker extends Thread {
 	 * Allows a worker to drink a cup of coffee
 	 * @param coffee the coffee to drink
 	 */
-	public void drink(Coffee coffee) {
+	public synchronized void drink(Coffee coffee) {
 		this.energy += coffee.getEnergy();
 	}
 	
@@ -132,7 +140,7 @@ public class Worker extends Thread {
 	 * Get the ammount of energy the worker currently has.
 	 * @return 	energy as int.
 	 */
-	public int getEnergy() {
+	public synchronized int getEnergy() {
 		return this.energy;
 	}
 	

@@ -73,6 +73,16 @@ public class CoffeeMaker extends Thread {
 	
 	
 	/**
+	 * Used to cancel the scheduled task. 
+	 * Subsequently closes thread.
+	 */
+	public void cancel() {
+		createCoffee.cancel();
+		serveCoffee.cancel();
+	}
+	
+	
+	/**
 	 * Constructor, requires variable coffeeQueue
 	 * @param coffeeQueue The queue that workers use to interface with the coffeemaker.
 	 */
