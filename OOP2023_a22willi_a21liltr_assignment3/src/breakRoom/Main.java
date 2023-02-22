@@ -19,6 +19,8 @@ public class Main extends Thread{
 		worker4.start();
 		coffeeMachine.start();
 		
+		System.out.println("======Started Simulation=====");
+		
 		//wait for 20 seconds
 		Thread.sleep(20000);
 		

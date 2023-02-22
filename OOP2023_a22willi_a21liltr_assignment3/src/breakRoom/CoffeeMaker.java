@@ -11,7 +11,7 @@ import coffee.Coffee;
 import coffee.Latte;
 
 public class CoffeeMaker extends Thread {
-	private static int timeScale = 1; // used to change speed of simulation (default = 1).
+	private static final int timeScale = 100; // used to change speed of simulation (default = 1).
 	private int timeToCreateCoffee = 2000; //the default time it takes the coffeemaker to create one coffee.
 	private int timeToServeCoffee = 1000; //the default time it takes the coffeemaker to serve one cup of coffee.
 	private int coffeBufferSize = 20; //the max amount of coffees the coffeemaker can store.
@@ -73,8 +73,7 @@ public class CoffeeMaker extends Thread {
 	
 	
 	/**
-	 * Used to cancel the scheduled task. 
-	 * Subsequently closes thread.
+	 * Used to cancel the scheduled tasks. 
 	 */
 	public void cancel() {
 		createCoffee.cancel();
