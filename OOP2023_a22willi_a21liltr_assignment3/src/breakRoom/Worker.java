@@ -7,7 +7,7 @@ import java.util.TimerTask;
 import coffee.Coffee;
 
 public class Worker extends Thread {
-	private static final int timeScale = 100; // used to change speed of simulation (default = 1)
+	private static final int timeScale = 1; // used to change speed of simulation (default = 1)
 	
 	private String name;
 	private int energy;
