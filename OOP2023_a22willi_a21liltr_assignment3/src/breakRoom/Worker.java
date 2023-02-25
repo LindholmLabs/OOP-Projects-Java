@@ -8,34 +8,33 @@ import coffee.Coffee;
 
 public class Worker extends Thread {
 	private static final int timeScale = 1; // used to change speed of simulation (default = 1)
-	
+
 	private String name;
 	private int energy;
 	private Boolean onBreak;
 	private Random r = new Random();
-	private int T; //delay used between every iteration.
+	private int T; // delay used between every iteration.
 	private Timer timer = new Timer();
 	private CoffeeQueue coffeeQueue;
-	
+
 	/**
-	 * Timertask, runs periodically to determine how much energy the worker has
-	 * and to determine the workers next move.
+	 * Timertask, runs periodically to determine how much energy the worker has and
+	 * to determine the workers next move.
 	 */
 	private TimerTask task = new TimerTask() {
 		public void run() {
 			energy--;
-			
-			//if the worker has replenished energy, the worker should no longer be on break.
+
+			// if the worker has replenished energy, the worker should no longer be on
+			// break.
 			if (energy >= 100 && onBreak) {
 				System.out.println(name + " goes back to work with energy level " + energy);
 				onBreak = false;
 			}
-			
-			
+
 			/*
-			 * The worker goes home if energy is at 0 or below.
-			 * The worker goes to get coffee if its energy level is below 30.
-			 * Otherwise keep working.
+			 * The worker goes home if energy is at 0 or below. The worker goes to get
+			 * coffee if its energy level is below 30. Otherwise keep working.
 			 */
 			if (energy <= 0) {
 				System.out.println(name + " is going home with energy level " + energy);
@@ -49,45 +48,41 @@ public class Worker extends Thread {
 			}
 		}
 	};
-	
-	
+
 	/**
-	 * Run thread. 
-	 * Starts scheduled task.
+	 * Run thread. Starts scheduled task.
 	 */
 	public void run() {
 		timer.scheduleAtFixedRate(task, T / timeScale, T / timeScale);
 	}
-	
+
 	/**
-	 * Used to cancel the scheduled task. 
+	 * Used to cancel the scheduled task.
 	 */
 	public void cancel() {
 		task.cancel();
 	}
-	
-	
+
 	/**
-	 * Constructor
-	 * Creates a worker.
-	 * @param name			Name of the worker.
-	 * @param coffeeQueue	The queue for getting coffee.
+	 * Constructor Creates a worker.
+	 * 
+	 * @param name        Name of the worker.
+	 * @param coffeeQueue The queue for getting coffee.
 	 */
 	public Worker(String name, CoffeeQueue coffeeQueue) {
 		this.name = name;
 		this.coffeeQueue = coffeeQueue;
 		this.onBreak = false;
-		this.energy = r.nextInt(30, 90); //set the starting value of energy to a random int.
-		this.T = r.nextInt(500, 1500); //set the duration between each iteration of task to a random int.
+		this.energy = r.nextInt(30, 90); // set the starting value of energy to a random int.
+		this.T = r.nextInt(500, 1500); // set the duration between each iteration of task to a random int.
 	}
-	
-	
+
 	/**
-	 * Constructor
-	 * Creates a worker.
-	 * @param name			Name of the worker.
-	 * @param coffeeQueue	The queue for getting coffee.
-	 * @param energy		The ammount of energy the worker has.
+	 * Constructor Creates a worker.
+	 * 
+	 * @param name        Name of the worker.
+	 * @param coffeeQueue The queue for getting coffee.
+	 * @param energy      The ammount of energy the worker has.
 	 */
 	public Worker(String name, CoffeeQueue coffeeQueue, int energy) {
 		this.name = name;
@@ -95,19 +90,16 @@ public class Worker extends Thread {
 		this.energy = energy;
 		this.T = r.nextInt(500, 1500);
 	}
-	
-	
+
 	/**
-	 * start queuing to get coffee.
-	 * NOTE: only adds the same worker once.
+	 * start queuing to get coffee. NOTE: only adds the same worker once.
 	 */
 	private void Queue() {
 		if (!(coffeeQueue.inQueue(this))) {
 			coffeeQueue.enQueue(this);
 		}
 	}
-	
-	
+
 	/**
 	 * Remove worker from queue.
 	 */
@@ -116,51 +108,50 @@ public class Worker extends Thread {
 			coffeeQueue.deQueue(this);
 		}
 	}
-	
-	
+
 	/**
 	 * Allows a worker to drink a cup of coffee
+	 * 
 	 * @param coffee the coffee to drink
 	 */
 	public synchronized void drink(Coffee coffee) {
 		this.energy += coffee.getEnergy();
 	}
-	
+
 	/**
 	 * Get the workers name
+	 * 
 	 * @return returns the workers name.
 	 */
 	public String getWorkerName() {
 		return this.name;
 	}
-	
-	
+
 	/**
 	 * Get the ammount of energy the worker currently has.
-	 * @return 	energy as int.
+	 * 
+	 * @return energy as int.
 	 */
 	public synchronized int getEnergy() {
 		return this.energy;
 	}
-	
-	
+
 	/**
-	 * Override of equals function.
-	 * Only compare the names of the workers to determine if they are queuing.
-	 * This allows comparisons even if worker energy changes.
+	 * Override of equals function. Only compare the names of the workers to
+	 * determine if they are queuing. This allows comparisons even if worker energy
+	 * changes.
 	 * 
-	 * NOTE: since it only compares names to know if worker is in coffeeQueue,
-	 * 		 no two workers can have the same name. 
+	 * NOTE: since it only compares names to know if worker is in coffeeQueue, no
+	 * two workers can have the same name.
 	 */
 	@Override
 	public boolean equals(Object object) {
 		boolean isEqual = false;
 
-        if (object != null && object instanceof Worker)
-        {
-            isEqual = this.name == ((Worker) object).name;
-        }
+		if (object != null && object instanceof Worker) {
+			isEqual = this.name == ((Worker) object).name;
+		}
 
-        return isEqual;
+		return isEqual;
 	}
 }
