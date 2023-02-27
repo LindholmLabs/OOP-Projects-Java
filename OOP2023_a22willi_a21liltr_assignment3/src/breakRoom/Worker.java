@@ -38,6 +38,7 @@ public class Worker extends Thread {
 			 */
 			if (energy <= 0) {
 				System.out.println(name + " is going home with energy level " + energy);
+				deQueue();
 				cancel();
 			} else if (energy < 30 || onBreak) {
 				onBreak = true;
