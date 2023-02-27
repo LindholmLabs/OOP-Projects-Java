@@ -1,10 +1,13 @@
 package breakRoom;
 
+import java.util.Scanner;
+
 public class Main extends Thread {
 
 	public static void main(String[] args) throws InterruptedException {
 		CoffeeQueue queue = new CoffeeQueue();
 		CoffeeMaker coffeeMachine = new CoffeeMaker(queue);
+		Scanner sc = new Scanner(System.in);
 
 		// declare workers
 		Worker worker1 = new Worker("worker1", queue);
@@ -21,6 +24,7 @@ public class Main extends Thread {
 
 		System.out.println("======Started Simulation=====");
 
+		
 		// wait for 20 seconds
 		Thread.sleep(20000);
 
