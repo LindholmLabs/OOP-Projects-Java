@@ -1,5 +1,5 @@
 package blocks;
 
-public class S_Block {
+public class S_Block implements Tileable {
 
 }
