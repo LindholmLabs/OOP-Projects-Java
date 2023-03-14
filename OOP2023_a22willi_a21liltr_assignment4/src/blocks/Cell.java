@@ -13,6 +13,7 @@ public class Cell {
 	public Cell(Graphics g, int x, int y, Dimension size) {
 		this.g = g;
 		this.size = size;
+		g.setColor(Color.black);
 		g.drawRect(x, y, size.width, size.height);
 	}
 	

@@ -13,8 +13,10 @@ import blocks.Cell;
 public class Board extends JPanel {
 	//size of window
 	private final Dimension size = new Dimension(595, 797);
+	
 	//size of each individual tile
 	private final int tileSize = 20;
+	private final Dimension tileDim = new Dimension(tileSize, tileSize);
 	
 	private Cell[][] grid;
 	
@@ -33,14 +35,13 @@ public class Board extends JPanel {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, size.width, size.height);
 		generateGrid(g);
-		
 	}
 	
 	
 	private void generateGrid(Graphics g) {
 		for (int x = 0; x < Math.abs(size.width / tileSize); x++) {
 			for (int y = 0; y < Math.abs(size.height / tileSize); y++) {
-				grid[y][x] = new Cell(g, y, x, size);
+				grid[x][y] = new Cell(g, (x*tileSize), (y*tileSize), tileDim);
 			}
 		}
 	}
