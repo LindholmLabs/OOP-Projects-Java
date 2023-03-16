@@ -26,6 +26,10 @@ public class Board extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 	
+	public void test() {
+		grid[2][2].occupyCell(Color.red);
+	}
+	
 	public Dimension getSize() {
 		return this.size;
 	}

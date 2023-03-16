@@ -1,6 +1,6 @@
 package blocks;
 
-public interface Tileable {
+public interface TetrisBlock {
 	//public Object generate();
 	
 	//public void rotateLeft();

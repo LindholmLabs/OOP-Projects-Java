@@ -1,5 +1,5 @@
 package blocks;
 
-public class I_Block implements Tileable {
+public class I_Block implements TetrisBlock {
 
 }
