@@ -1,9 +1,11 @@
 package blocks;
 
+import java.awt.Color;
+
 public interface Tileable {
-	//public Object generate();
+	//public int[][] getShape();
 	
-	//public void rotateLeft();
+	//public Color getColor();
 	
 	//public void rotateRight();
 	
