@@ -3,20 +3,14 @@ package blocks;
 import java.awt.Color;
 
 public class I_Block extends Poly {
-	
-	//holds the information that dictates what shape the object becomes on the board
-	public int[][] Shape = {
-				{1, 0},
-				{1, 0},
-				{1, 0},
-				{1, 1},
-	};
-		
-	private Color color;
-	
+
+	// holds the information that dictates what shape the object becomes on the
+	// board
+	public int[][] Shape = { { 1 }, { 1 }, { 1 }, { 1 }, };
+
 	public I_Block(int x, int y) {
 		super(x, y);
-		color = Color.green;
+		super.setColor(Color.cyan);
 	}
 
 	@Override
@@ -24,9 +18,9 @@ public class I_Block extends Poly {
 		// TODO Auto-generated method stub
 		return Shape;
 	}
-	
+
 	@Override
-	public Color getColor() {
-		return color;
+	public void rotate() {
+		Shape = super.rotateRight(Shape);
 	}
 }

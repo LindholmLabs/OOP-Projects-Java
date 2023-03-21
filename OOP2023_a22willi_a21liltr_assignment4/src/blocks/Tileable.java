@@ -3,11 +3,13 @@ package blocks;
 import java.awt.Color;
 
 public interface Tileable {
-	//public int[][] getShape();
+	public boolean isOccupied();
 	
-	//public Color getColor();
+	void setOccupied(boolean state);
+
+	public Color getColor();
 	
-	//public void rotateRight();
+	public void setColor(Color color);
+
 	
-	//public void setPosition(int x, int y);
 }

@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -14,136 +15,221 @@ import blocks.Tileable;
 import blocks.Poly;
 
 public class Board extends JPanel {
-	//size of window
-	private final Dimension size = new Dimension(595, 797);
-	//size of each individual tile
-	private final int tileSize = 20;
-	
-	private Poly[][] grid;
-	
+	// size of window
+	private final Dimension size = new Dimension(290, 790);
+
+	private final Color backgroundColor = Color.DARK_GRAY;
+
+	// size of each individual tile
+	private final int tileSize = 25;
+
+	private int score;
+
+	private Tileable[][] grid;
+
 	private ArrayList<Poly> polys = new ArrayList<Poly>();
 
-	
-	private Poly fallingPoly;
 	private boolean polyFalling;
-	
+
 	public Board() {
-		grid = new Poly[Math.abs(size.width / tileSize)][Math.abs(size.height / tileSize)];
+		grid = new Tileable[Math.abs(size.width / tileSize)][Math.abs(size.height / tileSize)];
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		polyFalling = false;
+		score = 0;
+		fillGrid();
+	}
+
+	public void fillGrid() {
+		for (int x = 0; x < grid[0].length; x++) {
+			for (int y = 0; y < grid.length; y++) {
+				grid[y][x] = new Tile(false);
+			}
+		}
+	}
+
+	public void detectFullRow() {
+		for (int row = 0; row < grid[0].length; row++) {
+			for (int col = 0; col < grid.length; col++) {
+				if (!(grid[col][row].isOccupied())) {
+					break;
+					// System.out.println("Found occupied tile at: " + col + ":" + row);
+				}
+				if (col == grid.length - 1) {
+					score += 10;
+					clearRow(row);
+					tileFall(row);
+				}
+			}
+		}
+	}
+
+	private void clearRow(int rowNumber) {
+		System.out.println("Clearing row: " + rowNumber);
+		for (int col = 0; col < grid.length; col++) {
+			grid[col][rowNumber].setOccupied(false);
+			grid[col][rowNumber].setColor(backgroundColor);
+		}
 	}
 	
+	public void givePoints(int amount) {
+		score += amount;
+	}
+
 	public Dimension getSize() {
 		return this.size;
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.gray);
 		draw(g);
 	}
-	
-	
-	public void addPoly(Poly poly) {
-		polys.add(poly);
-	}
-	
-	public int[] getPrefferedSpawn() {
-		int[] spawn = {grid.length / 2, 2};
-		return spawn;
-	}
-	
-	/*
-	public void drawPoly(Poly poly) {
-		for (int x = 0; x < poly.getShape().length; x++) {
-			for (int y = 0; y < poly.getShape()[0].length; y++) {
-				addTile(new Tile(grid.length / 2, 2, Color.red), x, y);
-			}
+
+	public boolean move(Poly poly, int x, int y) {
+		if (clear(poly, x, y)) {
+			poly.move(x, y);
+			return true;
 		}
-	}*/
-	
-	/*
-	public void drawPoly(Tileable poly) {
-		fallingPoly = (Poly) poly;
+		return false;
+	}
+
+	private boolean clear(Poly poly, int x, int y) {
 		int[][] shape = poly.getShape();
-		for (int x = 0; x < shape.length; x++) {
-			for (int y = 0; y < shape[0].length; y++) {
-				Tile tile = new Tile(grid.length / 2, 2, poly.getColor());
-				grid[tile.getPos()[0] + y][tile.getPos()[1] + x] = tile;
-				addTile(new Tile(grid.length / 2, 2, Color.red), x, y);
-			}
-		}
-	}*/
-	
-	/*
-	private void addTile(Tile tile, int x, int y) {
-		grid[tile.getPos()[0] + y][tile.getPos()[1] + x] = tile;
-	}*/
-	
-	/**
-	 * Draws the grid (this code needs fixing)
-	 * @param g
-	 */
-	
-	/**
-	public void draw(Graphics g) {
-		for (int x = 0; x < grid.length; x++) {
-			for (int y = 0; y < grid[0].length; y++) {
-				
-				
-				int posX = x*tileSize;
-				int posY = y*tileSize;
-				
-				
-				if (grid[x][y] != null) {
-					int[][] shape = grid[x][y].getShape();
-					for (int i  = 0; i < shape.length; i++) {
-						for (int j = 0; j < shape[0].length; j++) {
-							if (shape[i][j] == 1) {
-								
-								System.out.println("drawing tile at position: " + (posX + (i * tileSize))+ " " + (posY + (j * tileSize)));
-								g.setColor(grid[x][y].getColor());
-								g.fillRect(posX + (i * tileSize), posY + (j * tileSize), tileSize, tileSize);
-							}
+		int[] position = poly.getPos();
+
+		// iterate over every "tile" in poly shape
+		for (int i = 0; i < shape.length; i++) {
+			for (int j = 0; j < shape[0].length; j++) {
+				int realX = position[0] + j;
+				int realY = position[1] + i;
+				if (shape[i][j] == 1) {
+					// check X direction
+					if (x != 0) {
+						if (realX + x >= grid.length || realX + x < 0) {
+							return false;
+						}
+						if (grid[realX + x][realY].isOccupied()) {
+							return false;
+						}
+					}
+
+					// check y direction
+					if (y != 0) {
+						if (realY + y >= grid[0].length - 1) {
+							return false;
+						}
+						if (grid[realX][realY + y].isOccupied()) {
+							return false;
 						}
 					}
 				}
-				else {
-					g.setColor(Color.gray);
-					//g.fillRect(posX, posY, tileSize, tileSize);
+			}
+		}
+
+		return true;
+	}
+
+	public Poly getFallingPoly() {
+		if (!(polys.isEmpty())) {
+			return polys.get(polys.size() - 1);
+		}
+		return null;
+	}
+
+	public void freeze(Poly poly) {
+		int[][] shape = poly.getShape();
+		int[] position = poly.getPos();
+		for (int i = 0; i < shape.length; i++) {
+			for (int j = 0; j < shape[0].length; j++) {
+				if (shape[i][j] == 1) {
+					grid[position[0] + j][position[1] + i] = new Tile(poly.getColor());
 				}
 			}
 		}
-	}**/
-	
+		polyFalling = false;
+		polys.remove(poly);
+	}
+
+	public boolean isFalling() {
+		return polyFalling;
+	}
+
+	public void fall(Poly poly) {
+		polyFalling = true;
+		if (move(poly, 0, 1)) {
+			return;
+		} else {
+			freeze(poly);
+		}
+	}
+
+	public void tileFall(int row) {
+		for (int j = row; j > 0; j--) {
+			System.out.println("moving row " + j + " to " + (j - 1));
+			for (int i = grid.length - 1; i >= 0; i--) {
+				grid[i][j] = grid[i][j - 1];
+			}
+		}
+	}
+
+	public boolean hasLost() {
+		for (int i = 0; i < grid.length; i++) {
+			if (grid[i][0].isOccupied()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addPoly(Poly poly) {
+		polys.add(poly);
+		polyFalling = true;
+	}
+
+	public int[] getPrefferedSpawn() {
+		int[] spawn = { grid.length / 2, 0 };
+		return spawn;
+	}
+
 	private void clearBoard(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(backgroundColor);
 		g.fillRect(0, 0, size.width, size.height);
 	}
-	
+
 	public void draw(Graphics g) {
 		clearBoard(g);
-		for (Poly poly : polys) {
-			g.setColor(poly.getColor());
-			int[][] shape = poly.getShape();
-			
-			for (int i  = 0; i < shape.length; i++) {
-				for (int j = 0; j < shape[0].length; j++) {
-					if (shape[i][j] == 1) {
-						System.out.println("Drawing poly at" + poly.getPos()[0]+ " " + (i*tileSize) + " : " + poly.getPos()[1]+(j*tileSize));
-						g.fillRect(poly.getPos()[0] * tileSize + (i * tileSize), poly.getPos()[1] * tileSize + (j * tileSize), tileSize, tileSize);
+
+		// show score
+		g.setColor(Color.white);
+		String scoreText = "Score: " + String.valueOf(score);
+		g.setFont(new Font("Helvetica", Font.PLAIN, tileSize)); 
+		g.drawString(scoreText, tileSize, g.getFontMetrics().getHeight());
+
+		// draw polys
+		if (polys.size() > 0) {
+			for (Poly poly : polys) {
+				g.setColor(poly.getColor());
+				int[][] shape = poly.getShape();
+
+				for (int i = 0; i < shape.length; i++) {
+					for (int j = 0; j < shape[0].length; j++) {
+						if (shape[i][j] == 1) {
+							g.fillRect(poly.getPos()[0] * tileSize + (j * tileSize),
+									poly.getPos()[1] * tileSize + (i * tileSize), tileSize, tileSize);
+						}
 					}
-				}	
+				}
+			}
+		}
+
+		// draw tiles
+		for (int x = 0; x < grid[0].length; x++) {
+			for (int y = 0; y < grid.length; y++) {
+				if (grid[y][x].isOccupied()) {
+					g.setColor(grid[y][x].getColor());
+					g.fillRect(y * tileSize, x * tileSize, tileSize, tileSize);
+				}
 			}
 		}
 	}
-	
-	/**
-	private void generateGrid(Graphics g) {
-		for (int x = 0; x < Math.abs(size.width / tileSize); x++) {
-			for (int y = 0; y < Math.abs(size.height / tileSize); y++) {
-				grid[y][x] = new Cell(g, y, x, size);
-			}
-		}
-	}**/
 }

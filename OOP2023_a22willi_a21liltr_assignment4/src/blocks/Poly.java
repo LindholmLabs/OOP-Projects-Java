@@ -2,55 +2,65 @@ package blocks;
 
 import java.awt.Color;
 
-public class Poly {
-	private boolean falling;
-	
-	private int posX, posY; 
-	
-	
+public abstract class Poly implements Tileable {
+	private int posX, posY;
+	private boolean occupied;
+
+	private Color color;
+
 	public Poly(int x, int y) {
 		this.posX = x;
 		this.posY = y;
+		occupied = false;
 	}
-	
-	public void rotateRight() {
-		
+
+	public int[][] rotateRight(int[][] shape) {
+		int h = shape.length;
+		int w = shape[0].length;
+		int[][] rotatedShape = new int[w][h];
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				rotatedShape[x][h - 1 - y] = shape[y][x];
+			}
+		}
+		return rotatedShape;
 	}
-	
-	public void rotateLeft() {
-		
-	}
-	
-	public boolean isFalling() {
-		return this.falling;
-	}
-	
-	public void setFailling(boolean falling) {
-		this.falling = falling;
-	}
-	
+
+	public abstract void rotate();
+
 	public void move(int x, int y) {
 		this.posX += x;
 		this.posY += y;
 	}
-	
-	
-	public boolean getFalling() {
-		return falling;
-	}
-	
+
 	public int[] getPos() {
-		int[] pos = {posX, posY};
+		int[] pos = { posX, posY };
 		return pos;
 	}
-	
+
 	public int[][] getShape() {
 		return null;
 	}
-	
-	
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public Color getColor() {
-		//if no other value is set, red will be the default color.
-		return Color.red;
+		// if no other value is set, red will be the default color.
+		return color;
+	}
+
+	public boolean isOccupied() {
+		return occupied;
+	}
+	
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
+
+	public int[][] rotateRight() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
