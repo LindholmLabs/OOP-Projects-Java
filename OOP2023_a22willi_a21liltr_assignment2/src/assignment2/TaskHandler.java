@@ -2,6 +2,7 @@ package assignment2;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -13,7 +14,7 @@ import javax.swing.SwingUtilities;
 import se.his.it401g.todo.Task;
 import se.his.it401g.todo.TaskListener;
 
-public class TaskHandler implements TaskListener {
+public class TaskHandler implements TaskListener, Comparator<Task> {
 	private JPanel taskList;
 	private JScrollPane scrollPane;
 	private JLabel taskProgress;
@@ -65,6 +66,12 @@ public class TaskHandler implements TaskListener {
 	 * Sorts components in taskList according to specific requirements.
 	 * @param sortingOption
 	 */
+	@Override
+	public int compare(Object o1, Object o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	public void sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
@@ -182,5 +189,4 @@ public class TaskHandler implements TaskListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
