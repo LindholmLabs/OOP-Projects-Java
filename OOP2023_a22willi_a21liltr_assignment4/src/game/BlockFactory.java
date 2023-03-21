@@ -41,6 +41,6 @@ public class BlockFactory {
 	}
 
 	public Poly generateRandomPoly() {
-		return generatePoly(random.nextInt(0, 6));
+		return generatePoly(random.nextInt(0, 7));
 	}
 }

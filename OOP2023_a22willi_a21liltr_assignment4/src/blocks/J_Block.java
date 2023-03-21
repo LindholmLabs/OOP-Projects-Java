@@ -5,7 +5,7 @@ import java.awt.Color;
 public class J_Block extends Poly {
 	// holds the information that dictates what shape the object becomes on the
 	// board
-	public int[][] Shape = { { 0, 1 }, { 0, 1 }, { 1, 1 }, };
+	public int[][] Shape = { { 0, 1 }, { 0, 1 }, { 1, 1 } };
 
 	public J_Block(int x, int y) {
 		super(x, y);
@@ -21,10 +21,5 @@ public class J_Block extends Poly {
 	@Override
 	public void rotate() {
 		Shape = super.rotateRight(Shape);
-	}
-
-	public int[][] rotateRight(int[][] shape) {
-
-		return shape;
 	}
 }

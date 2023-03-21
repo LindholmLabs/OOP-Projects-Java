@@ -33,12 +33,14 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	@Override
-	
+
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		// spaceBar
 		case 32:
-			movePoly(0, 1);
+			if (board.getFallingPoly() != null) {
+				board.instaFall(board.getFallingPoly());
+			}
 			break;
 		// left
 		case 37:
@@ -53,6 +55,10 @@ public class GUI extends JFrame implements KeyListener {
 			if (board.getFallingPoly() != null) {
 				board.getFallingPoly().rotate();
 			}
+			// slow fall
+		case 40:
+			movePoly(0, 1);
+			break;
 		}
 
 		board.repaint();

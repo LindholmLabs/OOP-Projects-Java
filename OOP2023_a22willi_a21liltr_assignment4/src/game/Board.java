@@ -16,7 +16,7 @@ import blocks.Poly;
 
 public class Board extends JPanel {
 	// size of window
-	private final Dimension size = new Dimension(290, 790);
+	private final Dimension size = new Dimension(495, 790);
 
 	private final Color backgroundColor = Color.DARK_GRAY;
 
@@ -52,25 +52,27 @@ public class Board extends JPanel {
 			for (int col = 0; col < grid.length; col++) {
 				if (!(grid[col][row].isOccupied())) {
 					break;
-					// System.out.println("Found occupied tile at: " + col + ":" + row);
 				}
 				if (col == grid.length - 1) {
 					score += 10;
 					clearRow(row);
-					tileFall(row);
+					fall(row);
 				}
 			}
 		}
 	}
 
+	public int getScore() {
+		return score;
+	}
+
 	private void clearRow(int rowNumber) {
-		System.out.println("Clearing row: " + rowNumber);
 		for (int col = 0; col < grid.length; col++) {
 			grid[col][rowNumber].setOccupied(false);
 			grid[col][rowNumber].setColor(backgroundColor);
 		}
 	}
-	
+
 	public void givePoints(int amount) {
 		score += amount;
 	}
@@ -86,14 +88,14 @@ public class Board extends JPanel {
 	}
 
 	public boolean move(Poly poly, int x, int y) {
-		if (clear(poly, x, y)) {
+		if (isLegal(poly, x, y)) {
 			poly.move(x, y);
 			return true;
 		}
 		return false;
 	}
 
-	private boolean clear(Poly poly, int x, int y) {
+	private boolean isLegal(Poly poly, int x, int y) {
 		int[][] shape = poly.getShape();
 		int[] position = poly.getPos();
 
@@ -163,13 +165,21 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void tileFall(int row) {
+	public void fall(int row) {
 		for (int j = row; j > 0; j--) {
-			System.out.println("moving row " + j + " to " + (j - 1));
 			for (int i = grid.length - 1; i >= 0; i--) {
 				grid[i][j] = grid[i][j - 1];
 			}
 		}
+	}
+
+	public void instaFall(Poly poly) {
+		polyFalling = true;
+		boolean result = true;
+		do {
+			result = move(poly, 0, 1);
+		} while (result);
+		freeze(poly);
 	}
 
 	public boolean hasLost() {
@@ -200,11 +210,19 @@ public class Board extends JPanel {
 		clearBoard(g);
 
 		// show score
-		g.setColor(Color.white);
-		String scoreText = "Score: " + String.valueOf(score);
-		g.setFont(new Font("Helvetica", Font.PLAIN, tileSize)); 
-		g.drawString(scoreText, tileSize, g.getFontMetrics().getHeight());
+		drawScore(g);
 
+		// draw polys
+		drawPoly(g);
+
+		// draw guidelines
+		drawPolyGuide(g);
+
+		// draw tiles
+		drawTiles(g);
+	}
+
+	private void drawPoly(Graphics g) {
 		// draw polys
 		if (polys.size() > 0) {
 			for (Poly poly : polys) {
@@ -216,13 +234,15 @@ public class Board extends JPanel {
 						if (shape[i][j] == 1) {
 							g.fillRect(poly.getPos()[0] * tileSize + (j * tileSize),
 									poly.getPos()[1] * tileSize + (i * tileSize), tileSize, tileSize);
+
 						}
 					}
 				}
 			}
 		}
+	}
 
-		// draw tiles
+	private void drawTiles(Graphics g) {
 		for (int x = 0; x < grid[0].length; x++) {
 			for (int y = 0; y < grid.length; y++) {
 				if (grid[y][x].isOccupied()) {
@@ -231,5 +251,26 @@ public class Board extends JPanel {
 				}
 			}
 		}
+	}
+
+	private void drawPolyGuide(Graphics g) {
+		g.setColor(Color.white);
+		if (getFallingPoly() != null) {
+			Poly poly = getFallingPoly();
+			int[][] shape = poly.getShape();
+			g.drawLine(poly.getPos()[0] * tileSize + (shape[0].length * tileSize),
+					poly.getPos()[1] * tileSize + shape.length * tileSize,
+					poly.getPos()[0] * tileSize + (shape[0].length * tileSize), size.height);
+			g.drawLine(poly.getPos()[0] * tileSize, poly.getPos()[1] * tileSize + shape.length * tileSize,
+					poly.getPos()[0] * tileSize, size.height);
+		}
+	}
+
+	private void drawScore(Graphics g) {
+		// show score
+		g.setColor(Color.white);
+		String scoreText = "Score: " + String.valueOf(score);
+		g.setFont(new Font("Helvetica", Font.PLAIN, tileSize));
+		g.drawString(scoreText, tileSize, g.getFontMetrics().getHeight());
 	}
 }

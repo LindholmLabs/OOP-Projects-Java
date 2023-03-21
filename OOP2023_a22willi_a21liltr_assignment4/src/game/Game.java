@@ -3,6 +3,8 @@ package game;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+
 import blocks.Poly;
 
 public class Game {
@@ -38,13 +40,10 @@ public class Game {
 
 				board.repaint();
 			} else {
-				resetGame();
+				System.out.println("You lost");
+				JOptionPane.showMessageDialog(null, "You scored: " + board.getScore() + " points");
+				System.exit(0);
 			}
 		}
 	};
-	
-	private void resetGame() {
-		System.out.println("Restarting game");
-		this.board = new Board();
-	}
 }
