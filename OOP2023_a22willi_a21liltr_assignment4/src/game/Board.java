@@ -95,7 +95,7 @@ public class Board extends JPanel {
 		return false;
 	}
 
-	private boolean isLegal(Poly poly, int x, int y) {
+	public boolean isLegal(Poly poly, int x, int y) {
 		int[][] shape = poly.getShape();
 		int[] position = poly.getPos();
 
@@ -105,24 +105,22 @@ public class Board extends JPanel {
 				int realX = position[0] + j;
 				int realY = position[1] + i;
 				if (shape[i][j] == 1) {
+					
 					// check X direction
-					if (x != 0) {
-						if (realX + x >= grid.length || realX + x < 0) {
-							return false;
-						}
-						if (grid[realX + x][realY].isOccupied()) {
-							return false;
-						}
+					if (realX + x >= grid.length || realX + x < 0) {
+						return false;
+					}
+					if (grid[realX + x][realY].isOccupied()) {
+						return false;
 					}
 
+
 					// check y direction
-					if (y != 0) {
-						if (realY + y >= grid[0].length - 1) {
-							return false;
-						}
-						if (grid[realX][realY + y].isOccupied()) {
-							return false;
-						}
+					if (realY + y >= grid[0].length - 1) {
+						return false;
+					}
+					if (grid[realX][realY + y].isOccupied()) {
+						return false;
 					}
 				}
 			}
@@ -138,7 +136,7 @@ public class Board extends JPanel {
 		return null;
 	}
 
-	public void freeze(Poly poly) {
+	private void freeze(Poly poly) {
 		int[][] shape = poly.getShape();
 		int[] position = poly.getPos();
 		for (int i = 0; i < shape.length; i++) {
@@ -258,11 +256,11 @@ public class Board extends JPanel {
 		if (getFallingPoly() != null) {
 			Poly poly = getFallingPoly();
 			int[][] shape = poly.getShape();
-			g.drawLine(poly.getPos()[0] * tileSize + (shape[0].length * tileSize),
+			g.drawLine(poly.getPos()[0] * tileSize + (shape[0].length * tileSize) - 1,
 					poly.getPos()[1] * tileSize + shape.length * tileSize,
-					poly.getPos()[0] * tileSize + (shape[0].length * tileSize), size.height);
+					poly.getPos()[0] * tileSize + (shape[0].length * tileSize) - 1, size.height - tileSize * 2);
 			g.drawLine(poly.getPos()[0] * tileSize, poly.getPos()[1] * tileSize + shape.length * tileSize,
-					poly.getPos()[0] * tileSize, size.height);
+					poly.getPos()[0] * tileSize, size.height - tileSize * 2);
 		}
 	}
 

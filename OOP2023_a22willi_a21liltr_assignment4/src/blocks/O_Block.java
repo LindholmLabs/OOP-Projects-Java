@@ -19,7 +19,12 @@ public class O_Block extends Poly {
 	}
 
 	@Override
-	public void rotate() {
-		Shape = super.rotateRight(Shape);
+	public void rotateRight() {
+		Shape = super.rotateClockwise(Shape);
+	}
+	
+	@Override
+	public void rotateLeft() {
+		Shape = super.rotateCounterClockwise(Shape);
 	}
 }

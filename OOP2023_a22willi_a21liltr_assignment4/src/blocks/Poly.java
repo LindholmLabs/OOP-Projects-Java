@@ -14,7 +14,7 @@ public abstract class Poly implements Tileable {
 		occupied = false;
 	}
 
-	public int[][] rotateRight(int[][] shape) {
+	public int[][] rotateClockwise(int[][] shape) {
 		int h = shape.length;
 		int w = shape[0].length;
 		int[][] rotatedShape = new int[w][h];
@@ -26,7 +26,21 @@ public abstract class Poly implements Tileable {
 		return rotatedShape;
 	}
 
-	public abstract void rotate();
+	public int[][] rotateCounterClockwise(int[][] shape) {
+		int h = shape.length;
+		int w = shape[0].length;
+		int[][] rotatedShape = new int[w][h];
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				rotatedShape[w - 1 - x][y] = shape[y][x];
+			}
+		}
+		return rotatedShape;
+	}
+
+	public abstract void rotateRight();
+	
+	public abstract void rotateLeft();
 
 	public void move(int x, int y) {
 		this.posX += x;
@@ -54,13 +68,8 @@ public abstract class Poly implements Tileable {
 	public boolean isOccupied() {
 		return occupied;
 	}
-	
+
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
-	}
-
-	public int[][] rotateRight() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

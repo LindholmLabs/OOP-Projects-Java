@@ -53,8 +53,14 @@ public class GUI extends JFrame implements KeyListener {
 		// rotate
 		case 38:
 			if (board.getFallingPoly() != null) {
-				board.getFallingPoly().rotate();
+				board.getFallingPoly().rotateRight();
+				
+				//if the rotate is not legal, undo rotation.
+				if (!(board.isLegal(board.getFallingPoly(), 0, 0))) {
+					board.getFallingPoly().rotateLeft();
+				}
 			}
+			break;
 			// slow fall
 		case 40:
 			movePoly(0, 1);
