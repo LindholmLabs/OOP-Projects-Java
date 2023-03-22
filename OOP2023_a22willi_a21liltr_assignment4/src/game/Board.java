@@ -16,7 +16,7 @@ import blocks.Poly;
 
 public class Board extends JPanel {
 	// size of window
-	private final Dimension size = new Dimension(495, 790);
+	private final Dimension size = new Dimension(490, 788);
 
 	private final Color backgroundColor = Color.DARK_GRAY;
 
@@ -105,7 +105,7 @@ public class Board extends JPanel {
 				int realX = position[0] + j;
 				int realY = position[1] + i;
 				if (shape[i][j] == 1) {
-					
+
 					// check X direction
 					if (realX + x >= grid.length || realX + x < 0) {
 						return false;
@@ -113,7 +113,6 @@ public class Board extends JPanel {
 					if (grid[realX + x][realY].isOccupied()) {
 						return false;
 					}
-
 
 					// check y direction
 					if (realY + y >= grid[0].length - 1) {
@@ -207,6 +206,9 @@ public class Board extends JPanel {
 	public void draw(Graphics g) {
 		clearBoard(g);
 
+		// generate grid lines
+		drawGrid(g);
+
 		// show score
 		drawScore(g);
 
@@ -256,11 +258,9 @@ public class Board extends JPanel {
 		if (getFallingPoly() != null) {
 			Poly poly = getFallingPoly();
 			int[][] shape = poly.getShape();
-			g.drawLine(poly.getPos()[0] * tileSize + (shape[0].length * tileSize) - 1,
-					poly.getPos()[1] * tileSize + shape.length * tileSize,
-					poly.getPos()[0] * tileSize + (shape[0].length * tileSize) - 1, size.height - tileSize * 2);
-			g.drawLine(poly.getPos()[0] * tileSize, poly.getPos()[1] * tileSize + shape.length * tileSize,
-					poly.getPos()[0] * tileSize, size.height - tileSize * 2);
+			g.drawLine(poly.getPos()[0] * tileSize + (shape[0].length * tileSize), 0,
+					poly.getPos()[0] * tileSize + (shape[0].length * tileSize), size.height);
+			g.drawLine(poly.getPos()[0] * tileSize, 0, poly.getPos()[0] * tileSize, size.height);
 		}
 	}
 
@@ -270,5 +270,16 @@ public class Board extends JPanel {
 		String scoreText = "Score: " + String.valueOf(score);
 		g.setFont(new Font("Helvetica", Font.PLAIN, tileSize));
 		g.drawString(scoreText, tileSize, g.getFontMetrics().getHeight());
+	}
+
+	private void drawGrid(Graphics g) {
+		g.setColor(Color.gray);
+
+		for (int x = 0; x < grid.length; x++) {
+			for (int y = 0; y < grid[0].length; y++) {
+				g.drawLine(x * tileSize, 0, x * tileSize, grid[0].length * tileSize);
+				g.drawLine(0, y * tileSize, grid[1].length * tileSize, y * tileSize);
+			}
+		}
 	}
 }
