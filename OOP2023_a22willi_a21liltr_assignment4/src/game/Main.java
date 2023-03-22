@@ -9,6 +9,6 @@ public class Main {
 		Board board = new Board();
 		GUI gui = new GUI(board);
 		Game game = new Game(board);
-		
+		game.start();
 	}
 }
