@@ -30,7 +30,12 @@ public class Board extends JPanel {
 	private ArrayList<Poly> polys = new ArrayList<Poly>();
 
 	private boolean polyFalling;
-
+	
+	
+	/**
+	 * Constructs board.
+	 * Calculates the size of the grid based of the size of the window.
+	 */
 	public Board() {
 		grid = new Tileable[Math.abs(size.width / tileSize)][Math.abs(size.height / tileSize)];
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -39,6 +44,9 @@ public class Board extends JPanel {
 		fillGrid();
 	}
 
+	/**
+	 * Fills the grid with unoccupied Tiles.
+	 */
 	public void fillGrid() {
 		for (int x = 0; x < grid[0].length; x++) {
 			for (int y = 0; y < grid.length; y++) {
@@ -47,6 +55,10 @@ public class Board extends JPanel {
 		}
 	}
 
+	/**
+	 * Detects full rows. Then calls on ClearRow and fall which together 
+	 * makes sure full rows are handled correctly.
+	 */
 	public void detectFullRow() {
 		for (int row = 0; row < grid[0].length; row++) {
 			for (int col = 0; col < grid.length; col++) {
@@ -61,11 +73,19 @@ public class Board extends JPanel {
 			}
 		}
 	}
-
+	
+	/**
+	 * Getter for score.
+	 * @return current score.
+	 */
 	public int getScore() {
 		return score;
 	}
-
+	
+	/**
+	 * Sets all Tiles on a given row to be unoccupied.
+	 * @param rowNumber
+	 */
 	private void clearRow(int rowNumber) {
 		for (int col = 0; col < grid.length; col++) {
 			grid[col][rowNumber].setOccupied(false);
@@ -73,20 +93,39 @@ public class Board extends JPanel {
 		}
 	}
 
+	/**
+	 * increase score by given amount.
+	 * @param amount
+	 */
 	public void givePoints(int amount) {
 		score += amount;
 	}
 
+	/**
+	 * Returns the size of the window.
+	 * @return size.
+	 */
 	public Dimension getSize() {
 		return this.size;
 	}
 
+	/**
+	 * Used for the graphical components of the game.
+	 * Draws all components of the board.
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.gray);
 		draw(g);
 	}
-
+	
+	/**
+	 * Move a Poly in given direction
+	 * @param poly the poly to move
+	 * @param x movement in X direction.
+	 * @param y movement in Y direction.
+	 * @return return whether movement was carried through or not.
+	 */
 	public boolean move(Poly poly, int x, int y) {
 		if (isLegal(poly, x, y)) {
 			poly.move(x, y);
@@ -95,6 +134,13 @@ public class Board extends JPanel {
 		return false;
 	}
 
+	/**
+	 * Checks if a movement, or current position of poly is allowed.
+	 * @param poly the poly to check.
+	 * @param x offset in X direction.
+	 * @param y offset in Y direction.
+	 * @return boolean movement legal or not.
+	 */
 	public boolean isLegal(Poly poly, int x, int y) {
 		int[][] shape = poly.getShape();
 		int[] position = poly.getPos();
@@ -128,6 +174,10 @@ public class Board extends JPanel {
 		return true;
 	}
 
+	/**
+	 * Returns the currently falling poly, if any.
+	 * @return falling poly.
+	 */
 	public Poly getFallingPoly() {
 		if (!(polys.isEmpty())) {
 			return polys.get(polys.size() - 1);
@@ -135,6 +185,11 @@ public class Board extends JPanel {
 		return null;
 	}
 
+	/**
+	 * Converts a poly in to Tiles at its current position.
+	 * After conversion the Poly is no longer controllable.
+	 * @param poly the poly to convert.
+	 */
 	private void freeze(Poly poly) {
 		int[][] shape = poly.getShape();
 		int[] position = poly.getPos();
@@ -149,10 +204,19 @@ public class Board extends JPanel {
 		polys.remove(poly);
 	}
 
+	/**
+	 * Is there a Poly falling currently.
+	 * @return is there a falling poly.
+	 */
 	public boolean isFalling() {
 		return polyFalling;
 	}
 
+	/**
+	 * Moves a given Poly one step down, for as long as possible.
+	 * When movement is no longer possible, freeze it into position.
+	 * @param poly to move.
+	 */
 	public void fall(Poly poly) {
 		polyFalling = true;
 		if (move(poly, 0, 1)) {
@@ -161,7 +225,11 @@ public class Board extends JPanel {
 			freeze(poly);
 		}
 	}
-
+	
+	/**
+	 * Move given row down one number in grid.
+	 * @param row the row number to move downwards.
+	 */
 	public void fall(int row) {
 		for (int j = row; j > 0; j--) {
 			for (int i = grid.length - 1; i >= 0; i--) {
@@ -170,6 +238,10 @@ public class Board extends JPanel {
 		}
 	}
 
+	/**
+	 * Moves a Poly to its lowest possible position and freezes it.
+	 * @param poly
+	 */
 	public void instaFall(Poly poly) {
 		polyFalling = true;
 		boolean result = true;
@@ -178,7 +250,11 @@ public class Board extends JPanel {
 		} while (result);
 		freeze(poly);
 	}
-
+	
+	/**
+	 * Has the user lost.
+	 * @return whether the user has lost or not.
+	 */
 	public boolean hasLost() {
 		for (int i = 0; i < grid.length; i++) {
 			if (grid[i][0].isOccupied()) {
@@ -188,40 +264,60 @@ public class Board extends JPanel {
 		return false;
 	}
 
+	/**
+	 * Add a new poly to the board.
+	 * @param poly
+	 */
 	public void addPoly(Poly poly) {
 		polys.add(poly);
 		polyFalling = true;
 	}
 
+	/**
+	 * Get the spawnpoint for new Polys.
+	 * @return coordinates of spawnpoint.
+	 */
 	public int[] getPrefferedSpawn() {
 		int[] spawn = { grid.length / 2, 0 };
 		return spawn;
 	}
 
+	/**
+	 * Turns the entire board into the desired background color.
+	 * @param g Java graphics.
+	 */
 	private void clearBoard(Graphics g) {
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, size.width, size.height);
 	}
 
+	/**
+	 * Draw all elements of the board that are to be displayed.
+	 * @param g Java graphics.
+	 */
 	public void draw(Graphics g) {
 		clearBoard(g);
-
+		
 		// generate grid lines
 		drawGrid(g);
-
-		// show score
-		drawScore(g);
-
-		// draw polys
-		drawPoly(g);
-
+		
 		// draw guidelines
 		drawPolyGuide(g);
-
+		
+		// draw polys
+		drawPoly(g);
+		
 		// draw tiles
 		drawTiles(g);
+		
+		// show score
+		drawScore(g);
 	}
 
+	/**
+	 * Draws the falling poly(s).
+	 * @param g
+	 */
 	private void drawPoly(Graphics g) {
 		// draw polys
 		if (polys.size() > 0) {
@@ -242,6 +338,10 @@ public class Board extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws all the Tiles.
+	 * @param g
+	 */
 	private void drawTiles(Graphics g) {
 		for (int x = 0; x < grid[0].length; x++) {
 			for (int y = 0; y < grid.length; y++) {
@@ -253,6 +353,10 @@ public class Board extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws the guidelines that show where the falling Poly is going to land.
+	 * @param g
+	 */
 	private void drawPolyGuide(Graphics g) {
 		g.setColor(Color.white);
 		if (getFallingPoly() != null) {
@@ -264,6 +368,10 @@ public class Board extends JPanel {
 		}
 	}
 
+	/**
+	 * Displays the score at the top left of the window.
+	 * @param g
+	 */
 	private void drawScore(Graphics g) {
 		// show score
 		g.setColor(Color.white);
@@ -272,12 +380,18 @@ public class Board extends JPanel {
 		g.drawString(scoreText, tileSize, g.getFontMetrics().getHeight());
 	}
 
+	/**
+	 * Draws the gridlines representing the board.
+	 * @param g
+	 */
 	private void drawGrid(Graphics g) {
 		g.setColor(Color.gray);
 
 		for (int x = 0; x < grid.length; x++) {
 			for (int y = 0; y < grid[0].length; y++) {
+				//draw x lines
 				g.drawLine(x * tileSize, 0, x * tileSize, grid[0].length * tileSize);
+				//draw y lines
 				g.drawLine(0, y * tileSize, grid[1].length * tileSize, y * tileSize);
 			}
 		}

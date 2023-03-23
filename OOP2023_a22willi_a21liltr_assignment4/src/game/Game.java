@@ -62,7 +62,6 @@ public class Game extends Thread {
 	private void calculateTickSpeed() {
 		if (tickSpeed >= minTickSpeed) {
 			tickSpeed = maxTickSpeed - (board.getScore() / 2);
-		}	
-		System.out.println("delay: " + tickSpeed); 
+		} 
 	}
 }
