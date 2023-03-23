@@ -23,7 +23,7 @@ public class I_Block extends Poly {
 	public void rotateRight() {
 		Shape = super.rotateClockwise(Shape);
 	}
-	
+
 	@Override
 	public void rotateLeft() {
 		Shape = super.rotateCounterClockwise(Shape);

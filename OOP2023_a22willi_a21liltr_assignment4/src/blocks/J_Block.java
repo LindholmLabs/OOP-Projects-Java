@@ -3,6 +3,7 @@ package blocks;
 import java.awt.Color;
 
 public class J_Block extends Poly {
+	
 	// holds the information that dictates what shape the object becomes on the
 	// board
 	public int[][] Shape = { { 0, 1 }, { 0, 1 }, { 1, 1 } };
@@ -22,7 +23,7 @@ public class J_Block extends Poly {
 	public void rotateRight() {
 		Shape = super.rotateClockwise(Shape);
 	}
-	
+
 	@Override
 	public void rotateLeft() {
 		Shape = super.rotateCounterClockwise(Shape);

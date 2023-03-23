@@ -13,6 +13,10 @@ public class GUI extends JFrame implements KeyListener {
 	Board board;
 	JFrame frame;
 
+	/**
+	 * Instantiates the GUI and creates a JFrame / window on which the game is played.
+	 * @param board
+	 */
 	public GUI(Board board) {
 		this.board = board;
 		frame = new JFrame("Tetris");
@@ -32,36 +36,43 @@ public class GUI extends JFrame implements KeyListener {
 
 	}
 
+	/**
+	 * Handle all of the user input.
+	 */
 	@Override
-
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		// spaceBar
+		// instantly move the falling Poly to the lowest possible position.
+		// Spacebar.
 		case 32:
 			if (board.getFallingPoly() != null) {
 				board.instaFall(board.getFallingPoly());
 			}
 			break;
-		// left
+		// move the currently falling poly to the left.
+		// left arrow key.
 		case 37:
 			movePoly(-1, 0);
 			break;
-		// right
+		// move the currently falling poly to the right.
+		// right arrow key.
 		case 39:
 			movePoly(1, 0);
 			break;
-		// rotate
+		// rotate the falling poly.
+		// up arrow key.
 		case 38:
 			if (board.getFallingPoly() != null) {
 				board.getFallingPoly().rotateRight();
-				
-				//if the rotate is not legal, undo rotation.
+
+				// if the rotate is not legal, undo rotation.
 				if (!(board.isLegal(board.getFallingPoly(), 0, 0))) {
 					board.getFallingPoly().rotateLeft();
 				}
 			}
 			break;
-			// slow fall
+		// slow fall.
+		// down arrow key.
 		case 40:
 			movePoly(0, 1);
 			break;
@@ -75,7 +86,13 @@ public class GUI extends JFrame implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * checks if there is a falling poly,
+	 * then moves it to the desired position.
+	 * @param x
+	 * @param y
+	 */
 	private void movePoly(int x, int y) {
 		if (board.getFallingPoly() != null) {
 			board.move(board.getFallingPoly(), x, y);
