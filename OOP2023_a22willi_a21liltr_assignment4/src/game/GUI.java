@@ -10,8 +10,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 public class GUI extends JFrame implements KeyListener {
-	Board board;
-	JFrame frame;
+	private Board board;
+	private JFrame frame;
 
 	/**
 	 * Instantiates the GUI and creates a JFrame / window on which the game is played.

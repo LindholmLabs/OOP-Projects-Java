@@ -9,7 +9,6 @@ import blocks.Poly;
 
 public class Game extends Thread {
 	private Board board;
-	private Timer timer;
 	
 	//gamespeed variables.
 	private int tickSpeed;
@@ -26,8 +25,6 @@ public class Game extends Thread {
 	 */
 	public Game(Board board) {
 		tickSpeed = maxTickSpeed;
-		
-		timer = new Timer();
 		this.board = board;
 		factory = new BlockFactory();
 		factory.setSpawn(board.getPrefferedSpawn());

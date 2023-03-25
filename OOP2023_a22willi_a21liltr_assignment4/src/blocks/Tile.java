@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 public class Tile implements Tileable {
-	Color color;
+	private Color color;
 	boolean occupied;
 
 	public Tile(boolean occupied) {
