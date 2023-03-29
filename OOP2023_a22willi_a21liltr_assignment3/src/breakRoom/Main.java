@@ -1,7 +1,6 @@
 package breakRoom;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main extends Thread {
 	
