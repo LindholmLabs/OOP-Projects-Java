@@ -1,40 +1,42 @@
 package breakRoom;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main extends Thread {
+	
 
-	public static void main(String[] args) throws InterruptedException {
+	private void startCoffeSimulation() throws InterruptedException {
 		CoffeeQueue queue = new CoffeeQueue();
 		CoffeeMaker coffeeMachine = new CoffeeMaker(queue);
-		Scanner sc = new Scanner(System.in);
-
-		// declare workers
-		Worker worker1 = new Worker("worker1", queue);
-		Worker worker2 = new Worker("worker2", queue);
-		Worker worker3 = new Worker("worker3", queue);
-		Worker worker4 = new Worker("worker4", queue);
-
-		// start all threads. (start simulation).
-		worker1.start();
-		worker2.start();
-		worker3.start();
-		worker4.start();
-		coffeeMachine.start();
-
+		ArrayList<Worker> workers = new ArrayList<Worker>();
+		final int numberOfWorkers = 10;
+		
 		System.out.println("======Started Simulation=====");
-
+		
+		for (int i = 0; i < numberOfWorkers; i++) {
+			workers.add(new Worker(("worker" + i), queue));
+			workers.get(i).start();
+		}
 		
 		// wait for 20 seconds
 		Thread.sleep(20000);
-
-		// stop all threads. (exit simulation).
-		worker1.cancel();
-		worker2.cancel();
-		worker3.cancel();
-		worker4.cancel();
+		
+		for (int i = 0; i < numberOfWorkers; i++) {
+			workers.get(i).cancel();
+		}
+		
 		coffeeMachine.cancel();
 
 		System.out.println("======Closed Simulation=====");
+	}
+
+	public static void main(String[] args) {
+		Main main = new Main();
+		try {
+			main.startCoffeSimulation();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
