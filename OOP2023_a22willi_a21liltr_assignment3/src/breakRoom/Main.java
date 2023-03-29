@@ -26,8 +26,8 @@ public class Main extends Thread {
 		Thread.sleep(20000);
 		
 		//Stop all workers
-		for (int i = 0; i < numberOfWorkers; i++) {
-			workers.get(i).cancel();
+		for (Worker worker : workers) {
+			worker.cancel();
 		}
 		
 		coffeeMachine.cancel();
