@@ -23,7 +23,7 @@ public class Worker extends Thread {
 	 */
 	private TimerTask task = new TimerTask() {
 		public void run() {
-			energy--;
+			setEnergy(getEnergy() -1);
 
 			// if the worker has replenished energy, the worker should no longer be on
 			// break.
@@ -135,6 +135,10 @@ public class Worker extends Thread {
 	 */
 	public synchronized int getEnergy() {
 		return this.energy;
+	}
+	
+	public synchronized void setEnergy(int energy) {
+		this.energy = energy;
 	}
 
 	/**
