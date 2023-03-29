@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 public class Main extends Thread {
 	
-
+	/**
+	 * Used to start the coffee simulation
+	 * @throws InterruptedException
+	 */
 	private void startCoffeSimulation() throws InterruptedException {
 		CoffeeQueue queue = new CoffeeQueue();
 		CoffeeMaker coffeeMachine = new CoffeeMaker(queue);
@@ -14,6 +17,7 @@ public class Main extends Thread {
 		
 		System.out.println("======Started Simulation=====");
 		
+		//start all workers
 		for (int i = 0; i < numberOfWorkers; i++) {
 			workers.add(new Worker(("worker" + i), queue));
 			workers.get(i).start();
@@ -22,6 +26,7 @@ public class Main extends Thread {
 		// wait for 20 seconds
 		Thread.sleep(20000);
 		
+		//Stop all workers
 		for (int i = 0; i < numberOfWorkers; i++) {
 			workers.get(i).cancel();
 		}
