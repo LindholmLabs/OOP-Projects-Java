@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 import se.his.it401g.todo.Task;
 import se.his.it401g.todo.TaskListener;
 
-public class TaskHandler implements TaskListener, Comparator<Task> {
+public class TaskHandler implements TaskListener {
 	private JPanel taskList;
 	private JScrollPane scrollPane;
 	private JLabel taskProgress;
@@ -62,16 +62,6 @@ public class TaskHandler implements TaskListener, Comparator<Task> {
 		return taskList;
 	}
 	
-	/**
-	 * Sorts components in taskList according to specific requirements.
-	 * @param sortingOption
-	 */
-	@Override
-	public int compare(Object o1, Object o2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	public void sort(String sortingOption) {
 		List<Task> sortedList = new ArrayList<Task>();
 		for (int i = 0; i < taskList.getComponentCount(); i++) {
@@ -81,21 +71,13 @@ public class TaskHandler implements TaskListener, Comparator<Task> {
 		switch (sortingOption)
 		{
 		    case "Alphabetical":
-		    	Collections.sort(sortedList, 
-						(o1, o2) -> 
-							o1.getText().toLowerCase()
-								.compareTo(o2.getText().toLowerCase()));
+		    	Collections.sort(sortedList, new comparators.SortByName());
 		    	break;
 		    case "Type":
-		    	Collections.sort(sortedList, 
-						(o1, o2) -> 
-							o1.getTaskType()
-								.compareTo(o2.getTaskType()));
+		    	Collections.sort(sortedList, new comparators.SortByType());
 		    	break;
 		    case "Completed":
-		    	Collections.sort(sortedList, 
-						(o1, o2) ->
-							Boolean.compare(o1.isComplete(), o2.isComplete()));
+		    	Collections.sort(sortedList, new comparators.SortByState());
 		    	break;
 		    default:
 		    	
