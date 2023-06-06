@@ -50,3 +50,20 @@ Java Swing assignment tracker.
 - 3 different types of tasks, StudyTasks, HomeTasks, and WorkTasks. 
 - When creating a worktask, the color can be chosen by the user. 
 - Tasks can be sorted based on, completion, type and name. 
+
+## Assignment 1 (Lucky Card):
+Simple console based "Lucky Card" game.
+
+```
+------- Playing a game round
+Card 0: Spades -> 10 Value = 20
+Card 1: Hearts -> 9 Value = 17
+Card 2: Diamonds -> 2 Value = 6
+You lose!
+
+=========> Press ENTER to play again or "q" to quit: 
+```
+
+A console application called "Lucky Card" where users can play a simple card game. The game involves shuffling a deck of cards and placing them in a heap. Each card is assigned a value based on its rank and suit. The value of a card is determined by adding the card's rank value with a bonus value associated with its suit. The bonus values are 4 for diamonds, 6 for clubs, 8 for hearts, and 10 for spades.
+
+In each round of the game, the player draws three cards sequentially from the top of the deck. The objective is to determine if the value of the third card falls between the values of the first two cards. If it does, the player wins! However, if the third card is equal to either of the first two cards or falls outside the range of values between them, the player loses.
