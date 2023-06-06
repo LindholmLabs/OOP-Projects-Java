@@ -5,7 +5,7 @@
 ## Assignment 4 (Tetris):
 A tetris game built using Java and Swing.
 - Implementing dynamic game speed adjustments based on the player's accumulated points.
-- Guidelines highlighting where the currently falling block will land.¨
+- Guidelines highlighting where the currently falling block will land.
 - Advanced controlls, Arrow up <kbd>&uarr;</kbd> rotates currently falling block 90°. Arrow down <kbd>&darr;</kbd> increases falling speed. Space <kbd>space</kbd> makes block instantly fall to bottom. 
 - Points are given based on multiple factors; the total number of fallen blocks, and full rows. 
 - User looses when blocks can no longer freely spawn at the top of the board.
@@ -24,9 +24,10 @@ Multithreaded simulation of workers queuing.
 - Worker's energy decreases by 1 point every T seconds (T is randomly assigned: 500 ms to 1500 ms).
 - Workers leave the queue if their energy reaches 0 while waiting.
 - Simulate worker's energy-based states during a given time window in seconds.
+<br>
 <sub>Below is an example of the programs output:</sub>
 <br>
-```
+```properties
 worker2 Is working with energy level 43
 worker5 Is working with energy level 54
 worker0 is taking a break with energy level 29
