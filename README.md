@@ -43,6 +43,7 @@ worker4 Is working with energy level 54
 
 ## Assignment 2 (ToDO):
 Java Swing assignment tracker.
+<br>
 ![ToDo program GUI](Media/ToDo_UI.png)
 - Create tasks.
 - Mark tasks as complete.
