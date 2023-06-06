@@ -40,3 +40,12 @@ worker2 Is working with energy level 42
 worker4 Is working with energy level 54
 ...
 ```
+
+## Assignment 2 (ToDO):
+Java Swing assignment tracker.
+![ToDo program GUI](Media/ToDo_UI.png)
+- Create tasks.
+- Mark tasks as complete.
+- 3 different types of tasks, StudyTasks, HomeTasks, and WorkTasks. 
+- When creating a worktask, the color can be chosen by the user. 
+- Tasks can be sorted based on, completion, type and name. 
