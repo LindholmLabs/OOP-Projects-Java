@@ -24,9 +24,10 @@ Multithreaded simulation of workers queuing.
 - Worker's energy decreases by 1 point every T seconds (T is randomly assigned: 500 ms to 1500 ms).
 - Workers leave the queue if their energy reaches 0 while waiting.
 - Simulate worker's energy-based states during a given time window in seconds.
-<br>
-Simulation output:
+
+<sub>Simulation output:</sub>
 ```
+...
 worker2 Is working with energy level 43
 worker5 Is working with energy level 54
 worker0 is taking a break with energy level 29
@@ -37,4 +38,5 @@ worker6 is taking a break with energy level 20
 worker9 is taking a break with energy level 29
 worker2 Is working with energy level 42
 worker4 Is working with energy level 54
+...
 ```
