@@ -25,9 +25,8 @@ Multithreaded simulation of workers queuing.
 - Workers leave the queue if their energy reaches 0 while waiting.
 - Simulate worker's energy-based states during a given time window in seconds.
 <br>
-<sub>Below is an example of the programs output:</sub>
-<br>
-```properties
+Simulation output:
+```
 worker2 Is working with energy level 43
 worker5 Is working with energy level 54
 worker0 is taking a break with energy level 29
